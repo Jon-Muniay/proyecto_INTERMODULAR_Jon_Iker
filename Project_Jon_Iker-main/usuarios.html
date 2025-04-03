@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subastas</title>
+    <link rel="stylesheet" href="usuarios.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Bienvenido al Sistema de Subastas</h1>
+    
+        
+        <h2>Artículos Disponibles para Pujar</h2>
+    
+        
+        <div class="auction-item">
+            <img src="Imagenes/chandal.png" alt="Chandal">
+            <div>
+                <h3>Artículo 1: Chandal</h3>
+                <p><strong>Descripción:</strong> Chandal cómodo para hacer ejercicio </p>
+                <p><strong>Precio actual de la puja:</strong> 50 €</p>
+                <button class="button" onclick="pujar(1, 50)">Pujar</button>
+            </div>
+        </div>
+    
+        
+        <div class="auction-item">
+            <img src="Imagenes/vaqueros.png" alt="Pantalones Vaqueros">
+            <div>
+                <h3>Artículo 2: Pantalones vaqueros</h3>
+                <p><strong>Descripción:</strong> Pantalones muy abrigados, ideales para invierno</p>
+                <p><strong>Precio actual de la puja:</strong> 15 €</p>
+                <button class="button" onclick="pujar(2, 15)">Pujar</button>
+            </div>
+        </div>
+    
+        
+        <div class="auction-item">
+            <img src="Imagenes/camiseta.png" alt="Camiseta ">
+            <div>
+                <h3>Artículo 3: Camiseta</h3>
+                <p><strong>Descripción:</strong> Camiseta barata y de buena calidad</p>
+                <p><strong>Precio actual de la puja:</strong> 7 €</p>
+                <button class="button" onclick="pujar(3, 7)">Pujar</button>
+            </div>
+        </div>
+    
+        <h2>Ofrece tu Artículo</h2><br>
+    <div class="offer-form">
+        <h3>Formulario para ofrecer un artículo</h3><br>
+        <label for="item-name"><strong>Nombre del artículo:</strong></label>
+        <input type="text" placeholder="Nombre del artículo" required>
+
+        <label for="item-description"><strong>descripción del artículo:</strong></label>
+        <input type="text" placeholder="Descripción del artículo" required>
+
+        <label for="item-price"><strong>Precio inicial (€):</strong></label>
+        <input type="number" placeholder="Precio inicial" required>
+
+        <label for="item-image"><strong>URL de la imagen:</strong></label>
+        <input type="text" placeholder="URL de la imagen del artículo" required><br>
+
+        <button class="button" onclick="ofrecerArticulo()">Ofrecer Artículo</button>
+    </div>
+
+    <h3>Artículos Ofrecidos por los Usuarios</h3>
+    <div id="offered-items-list">
+        
+    </div>
+
+        <div class="history">
+            <h3>Historial de Pujas</h3>
+            <ul id="history-list">
+               
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        
+        let historialPujas = [];
+    
+        
+        function pujar(idArticulo, precio) {
+            let nuevaPuja = prompt(`Introduce el monto que deseas pujar por el artículo ${idArticulo}. El precio actual es ${precio} €`);
+            if (nuevaPuja && !isNaN(nuevaPuja) && parseFloat(nuevaPuja) > precio) {
+               
+                let historialItem = {
+                    articulo: idArticulo,
+                    monto: nuevaPuja,
+                    fecha: new Date().toLocaleString()
+                };
+                historialPujas.push(historialItem);
+                actualizarHistorial();
+                alert(`¡Puja realizada con éxito! Tu oferta es ${nuevaPuja} €.`);
+            } else {
+                alert('El monto de la puja debe ser mayor al precio actual.');
+            }
+        }
+    
+        
+        function actualizarHistorial() {
+            let historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            historialPujas.forEach(puja => {
+                let listItem = document.createElement('li');
+                listItem.textContent = `Pujaste ${puja.monto} € por el artículo ${puja.articulo} el ${puja.fecha}.`;
+                historyList.appendChild(listItem);
+            });
+        }
+    </script>
+    
+    </body>
+    </html>
