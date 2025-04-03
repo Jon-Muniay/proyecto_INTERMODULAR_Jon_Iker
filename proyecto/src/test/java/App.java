@@ -14,7 +14,7 @@ public class App {
             cfg.setDefaultEncoding("UTF-8");
 
             // Cargar la plantilla
-            Template template = cfg.getTemplate("plantilla.ftl");
+            Template template = cfg.getTemplate("plantil la.ftl");
 
             // Datos para la plantilla
             Map<String, Object> datos = new HashMap<>();
