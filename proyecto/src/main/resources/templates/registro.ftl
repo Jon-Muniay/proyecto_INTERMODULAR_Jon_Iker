@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrarse - Tienda de Ropa</title>
-   <link rel="stylesheet" href="/css/registro.css">
+    <link rel="stylesheet" href="/estilos.css">
 </head>
 <body>
     <div class="container">
         <h1>Regístrate</h1>
 
-        <form action="/registro" method="POST">
+        <form action="/registrar" method="POST">
             <div class="input-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
