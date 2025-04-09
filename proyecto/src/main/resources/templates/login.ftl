@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión - Tienda de Ropa</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="/static/css/login.css"> <!-- Ruta del CSS -->
 </head>
 <body>
     <div class="container">
@@ -12,9 +12,7 @@
 
             <div class="header">
                 <img src="Imagenes/Image 3 abr 2025, 12_35_27.png" alt="Logo de la Tienda" class="logo">
-
             </div>
-
 
             <form action="#" method="POST">
                 <div class="input-group">

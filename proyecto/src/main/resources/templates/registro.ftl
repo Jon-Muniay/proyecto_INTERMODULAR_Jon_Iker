@@ -9,7 +9,7 @@
     <div class="container">
         <h1>Regístrate</h1>
 
-        <form action="/registrar" method="POST">
+        <form action="/registro" method="POST">
             <div class="input-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
