@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrarse - Tienda de Ropa</title>
-    <link rel="stylesheet" href="/estilos.css">
+   <link rel="stylesheet" href="/css/registro.css">
 </head>
 <body>
     <div class="container">

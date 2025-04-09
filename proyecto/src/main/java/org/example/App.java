@@ -21,6 +21,13 @@ public class App {
         // Inicializar Javalin con FreeMarker
         Javalin app = Javalin.create(config -> {
             config.fileRenderer(new JavalinFreemarker(freemarkerConfig));
+            config.staticFiles.add(staticFiles -> {
+                staticFiles.directory = "/static"; // Asegúrate que apunta a: src/main/resources/static
+                staticFiles.hostedPath = "/static";
+                staticFiles.precompress = false;
+
+            });
+
         }).start(8080);
 
         // Ruta para el formulario de registro
@@ -89,8 +96,26 @@ public class App {
             model.put("usuario", usuario);
             model.put("productos", productos);
 
-            // Renderizar la vista del dashboard
-            ctx.render("dashboard.ftl", model);
+            // Renderizar la vista del resultado
+            ctx.render("resultado.ftl", model);
         });
+                app.get("/perfil", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("usuario");
+
+            if (usuario == null) {
+                ctx.redirect("/"); // Redirige a login si no está logueado
+                return;
+            }
+
+            // Obtener productos u otra información del usuario
+            List<Producto> productos = ProductoDAO.obtenerProductosPorEmail(usuario.getEmail());
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("usuario", usuario);
+            model.put("productos", productos);
+
+            ctx.render("perfil.ftl", model);
+        });
+
     }
 }
