@@ -1,30 +1,20 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Bienvenido ${usuario.nombre} - Panel de Usuario</title>
-    <link rel="stylesheet" href="/estilos.css"> <!-- si tienes CSS -->
+    <title>Perfil de ${usuario.nombre}</title>
 </head>
 <body>
-    <div class="container">
-        <h1>¡Hola, ${usuario.nombre}!</h1>
-        <p>Correo electrónico: <strong>${usuario.email}</strong></p>
+    <h1>Bienvenido, ${usuario.nombre}!</h1>
+    <p>Tu correo electrónico es: ${usuario.email}</p>
 
-        <h2>Tus productos</h2>
+    <h2>Tus Productos</h2>
+    <ul>
+    <#list productos as producto>
+        <li>${producto.nombre} - ${producto.precio}€</li>
+    </#list>
+    </ul>
 
-        <#if productos?size == 0>
-            <p>No tienes productos registrados.</p>
-        <#else>
-            <ul>
-                <#list productos as producto>
-                    <li>
-                        <strong>${producto.nombre}</strong> - ${producto.precio} €
-                    </li>
-                </#list>
-            </ul>
-        </#if>
-
-        <a href="/">Cerrar sesión</a>
-    </div>
+    <a href="/logout">Cerrar sesión</a>
 </body>
 </html>

@@ -84,9 +84,15 @@ public class App {
             Usuario usuario = UsuarioDAO.obtenerUsuarioPorEmailYPassword(email, password);
 
             if (usuario == null) {
-                ctx.status(401).result("Credenciales incorrectas");
+                Map<String, Object> model = new HashMap<>();
+                model.put("titulo", "Iniciar Sesión - Tienda de Ropa");
+                model.put("error", "El usuario no existe o la contraseña es incorrecta");
+                ctx.render("login.ftl", model);
                 return;
             }
+
+            ctx.sessionAttribute("usuario", usuario);
+
 
             // Obtener productos asociados al usuario (si corresponde)
             List<Producto> productos = ProductoDAO.obtenerProductosPorEmail(email);
@@ -96,26 +102,39 @@ public class App {
             model.put("usuario", usuario);
             model.put("productos", productos);
 
+
+
             // Renderizar la vista del resultado
             ctx.render("resultado.ftl", model);
         });
-                app.get("/perfil", ctx -> {
+        app.get("/resultado", ctx -> {
+            // Obtener el usuario de la sesión
             Usuario usuario = ctx.sessionAttribute("usuario");
 
             if (usuario == null) {
-                ctx.redirect("/"); // Redirige a login si no está logueado
+                // Si no hay usuario en la sesión, redirigir a la página de inicio de sesión
+                ctx.redirect("/");
                 return;
             }
 
-            // Obtener productos u otra información del usuario
+            // Obtener productos asociados al usuario
             List<Producto> productos = ProductoDAO.obtenerProductosPorEmail(usuario.getEmail());
 
+            // Preparar el modelo con la información del usuario y productos
             Map<String, Object> model = new HashMap<>();
             model.put("usuario", usuario);
             model.put("productos", productos);
 
-            ctx.render("perfil.ftl", model);
+            // Renderizar la vista del resultado
+            ctx.render("resultado.ftl", model);
         });
+
+        // Ruta para cerrar sesión
+        app.get("/logout", ctx -> {
+            ctx.req().getSession().invalidate(); // Invalidar la sesión
+            ctx.redirect("/"); // Redirigir a la página de inicio de sesión
+        });
+
 
     }
 }
