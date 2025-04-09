@@ -21,17 +21,10 @@ public class App {
         // Inicializar Javalin con FreeMarker
         Javalin app = Javalin.create(config -> {
             config.fileRenderer(new JavalinFreemarker(freemarkerConfig));
-            config.staticFiles.add(staticFiles -> {
-                staticFiles.directory = "/static"; // Asegúrate que apunta a: src/main/resources/static
-                staticFiles.hostedPath = "/static";
-                staticFiles.precompress = false;
-
-            });
-
-        }).start(8080);
+        }).start(9000);
 
         // Ruta para el formulario de registro
-        app.get("/registro.html", ctx -> {
+        app.get("/registro", ctx -> {
             Map<String, Object> model = new HashMap<>();
             model.put("titulo", "Registrar - Tienda de Ropa");
             ctx.render("registro.ftl", model);
@@ -60,18 +53,18 @@ public class App {
             UsuarioDAO.guardarUsuario(nuevoUsuario);
 
             // Redirigir a la página de login después de registrarse
-            ctx.redirect("/");  // Redirige a la página de login
+            ctx.redirect("/");
         });
 
-        // Ruta para el formulario de login (solo una definición para la ruta GET "/")
+        // Ruta para el formulario de login
         app.get("/", ctx -> {
             Map<String, Object> model = new HashMap<>();
             model.put("titulo", "Iniciar Sesión - Tienda de Ropa");
-            ctx.render("login.ftl", model);  // Asegúrate de que el archivo login.ftl esté en la carpeta /templates
+            ctx.render("login.ftl", model);
         });
 
         // Ruta para procesar el login
-        app.post("/login", ctx -> {  // Ruta para procesar los datos del login
+        app.post("/plantilla", ctx -> {
             String email = ctx.formParam("email");
             String password = ctx.formParam("password");
 
@@ -80,7 +73,7 @@ public class App {
                 return;
             }
 
-            // Buscar usuario en la base de datos (ejemplo usando un DAO)
+            // Buscar usuario en la base de datos
             Usuario usuario = UsuarioDAO.obtenerUsuarioPorEmailYPassword(email, password);
 
             if (usuario == null) {
@@ -88,34 +81,16 @@ public class App {
                 return;
             }
 
-            // Obtener productos asociados al usuario (si corresponde)
+            // Obtener los productos asociados al usuario
             List<Producto> productos = ProductoDAO.obtenerProductosPorEmail(email);
 
-            // Preparar el modelo con la información del usuario y productos
+            // Preparar el modelo con la información del usuario y los productos
             Map<String, Object> model = new HashMap<>();
             model.put("usuario", usuario);
             model.put("productos", productos);
 
-            // Renderizar la vista del resultado
-            ctx.render("resultado.ftl", model);
+            // Renderizar el dashboard con la información del usuario
+            ctx.render("dashboard.ftl", model);
         });
-                app.get("/perfil", ctx -> {
-            Usuario usuario = ctx.sessionAttribute("usuario");
-
-            if (usuario == null) {
-                ctx.redirect("/"); // Redirige a login si no está logueado
-                return;
-            }
-
-            // Obtener productos u otra información del usuario
-            List<Producto> productos = ProductoDAO.obtenerProductosPorEmail(usuario.getEmail());
-
-            Map<String, Object> model = new HashMap<>();
-            model.put("usuario", usuario);
-            model.put("productos", productos);
-
-            ctx.render("perfil.ftl", model);
-        });
-
     }
 }
