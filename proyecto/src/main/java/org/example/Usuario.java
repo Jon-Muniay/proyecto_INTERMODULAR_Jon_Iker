@@ -1,23 +1,35 @@
-package org.example;
+    package org.example;
 
-import jakarta.persistence.*;
-import lombok.Data;
+    import jakarta.persistence.*;
 
-@Data // Genera getters, setters, toString, etc. (opcional, requiere Lombok)
-@Entity // Indica que esta clase es una entidad JPA
-@Table(name = "usuarios") // Nombre de la tabla en la base de datos
-public class Usuario {
 
-    @Id // Indica que este campo es la clave primaria
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincrementable
-    private Long id;
+    @Entity // Indica que esta clase es una entidad JPA
+    @Table(name = "Usuarios") // Nombre de la tabla en la base de datos
+    public class Usuario {
 
-    @Column(nullable = false, unique = true)
-    private String nombre;
+       @Id
+       @GeneratedValue(strategy = GenerationType.IDENTITY)
+       private int id;
 
-    @Column(nullable = false)
-    private String contrasena;
+            @Column(name = "email", nullable = false)
+            private String email;
 
-    @Column(nullable = false)
-    private String rol; // "usuario" o "administrador"
-}
+            @Column(name = "contrasena", nullable = false)
+            private String contrasena;
+
+            // Constructor vacío requerido por Hibernate
+            public Usuario() {}
+
+            public Usuario(String email, String contrasena) {
+                this.email = email;
+                this.contrasena = contrasena;
+            }
+
+            // Getters y setters
+            public int getId() { return id; }
+            public String getEmail() { return email; }
+            public String getContrasena() { return contrasena; }
+
+            public void setEmail(String email) { this.email = email; }
+            public void setContrasena(String contrasena) { this.contrasena = contrasena; }
+        }

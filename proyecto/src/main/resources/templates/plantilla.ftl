@@ -1,15 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>${titulo}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Tienda de Ropa</title>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <h1>Bienvenido, ${usuario}!</h1>
-    <p>Lista de productos:</p>
-    <ul>
-        <#list productos as producto>
-            <li>${producto}</li>
-        </#list>
-    </ul>
+    <div class="container">
+        <div class="login-box">
+
+            <div class="header">
+                <img src="Imagenes/Image 3 abr 2025, 12_35_27.png" alt="Logo de la Tienda" class="logo">
+
+            </div>
+
+
+            <form action="#" method="POST">
+                <div class="input-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+                </div>
+                <button type="submit" class="btn-login">Iniciar Sesión</button>
+            </form>
+            <p class="register-link">¿No tienes una cuenta? <a href="registro.html">Regístrate aquí</a></p>
+        </div>
+    </div>
 </body>
 </html>
