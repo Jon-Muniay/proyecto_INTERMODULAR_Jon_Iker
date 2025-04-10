@@ -3,10 +3,7 @@ package org.example;
 import freemarker.template.Configuration;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinFreemarker;
-import org.example.Usuario;
-import org.example.UsuarioDAO;
-import org.example.Producto;
-import org.example.ProductoDAO;
+
 
 import java.util.HashMap;
 import java.util.List;
