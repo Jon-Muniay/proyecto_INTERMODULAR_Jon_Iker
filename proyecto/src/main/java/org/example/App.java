@@ -94,7 +94,7 @@ public class App {
             // Obtener productos asociados al usuario (si corresponde)
             List<Producto> productos = ProductoDAO.obtenerProductosPorEmail(email);
 
-            // Preparar el modelo con la información del usuario y productos
+           
             Map<String, Object> model = new HashMap<>();
             model.put("usuario", usuario);
             model.put("productos", productos);
