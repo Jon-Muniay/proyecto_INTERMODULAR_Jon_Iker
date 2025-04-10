@@ -4,7 +4,6 @@ import freemarker.template.Configuration;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinFreemarker;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +21,7 @@ public class App {
                 staticFiles.directory = "/static"; // Asegúrate que apunta a: src/main/resources/static
                 staticFiles.hostedPath = "/static";
                 staticFiles.precompress = false;
-
             });
-
         }).start(8080);
 
         // Ruta para el formulario de registro
@@ -39,11 +36,7 @@ public class App {
             String email = ctx.formParam("email");
             String password = ctx.formParam("password");
 
-            System.out.println("Datos recibidos:");
-            System.out.println("Nombre: " + nombre);
-            System.out.println("Email: " + email);
-            System.out.println("Contraseña: " + password);
-
+            // Validación de campos
             if (nombre == null || email == null || password == null || nombre.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 ctx.status(400).result("Faltan campos obligatorios");
                 return;
@@ -64,7 +57,7 @@ public class App {
             ctx.redirect("/");
         });
 
-        // Ruta para el formulario de login (solo una definición para la ruta GET "/")
+        // Ruta para el formulario de login
         app.get("/", ctx -> {
             Map<String, Object> model = new HashMap<>();
             model.put("titulo", "Iniciar Sesión - Tienda de Ropa");
@@ -72,10 +65,11 @@ public class App {
         });
 
         // Ruta para procesar el login
-        app.post("/login", ctx -> {  // Ruta para procesar los datos del login
+        app.post("/", ctx -> {  // Aquí procesamos el login en la ruta POST /
             String email = ctx.formParam("email");
             String password = ctx.formParam("password");
 
+            // Validación de campos
             if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
                 ctx.status(400).result("Faltan campos obligatorios");
                 return;
@@ -84,6 +78,7 @@ public class App {
             // Buscar usuario en la base de datos (ejemplo usando un DAO)
             Usuario usuario = UsuarioDAO.obtenerUsuarioPorEmailYPassword(email, password);
 
+            // Verificar si el usuario existe
             if (usuario == null) {
                 Map<String, Object> model = new HashMap<>();
                 model.put("titulo", "Iniciar Sesión - Tienda de Ropa");
@@ -92,28 +87,28 @@ public class App {
                 return;
             }
 
+            // Guardar al usuario en la sesión
             ctx.sessionAttribute("usuario", usuario);
-
 
             // Obtener productos asociados al usuario (si corresponde)
             List<Producto> productos = ProductoDAO.obtenerProductosPorEmail(email);
 
-
+            // Preparar el modelo con la información del usuario y productos
             Map<String, Object> model = new HashMap<>();
             model.put("usuario", usuario);
             model.put("productos", productos);
 
-
-
-            // Renderizar la vista del resultado
-            ctx.render("resultado.ftl", model);
+            // Redirigir a la página de resultados
+            ctx.redirect("/resultado");
         });
+
+        // Ruta para mostrar el perfil y productos del usuario logueado
         app.get("/resultado", ctx -> {
             // Obtener el usuario de la sesión
             Usuario usuario = ctx.sessionAttribute("usuario");
 
+            // Si no hay usuario en la sesión, redirigir a la página de inicio de sesión
             if (usuario == null) {
-                // Si no hay usuario en la sesión, redirigir a la página de inicio de sesión
                 ctx.redirect("/");
                 return;
             }
@@ -135,7 +130,5 @@ public class App {
             ctx.req().getSession().invalidate(); // Invalidar la sesión
             ctx.redirect("/"); // Redirigir a la página de inicio de sesión
         });
-
-
     }
 }
