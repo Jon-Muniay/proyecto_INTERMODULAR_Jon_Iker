@@ -118,24 +118,21 @@ text-decoration: underline;
         <h1>Crear cuenta</h1>
       </div>
 
-      <form id="formRegistro" action="/registrar" method="POST" novalidate>
-        <div class="input-group">
-          <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
-          <div id="error-nombre" class="error-message"></div>
-        </div>
-        <div class="input-group">
-          <label for="email">Correo Electrónico</label>
-          <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
-          <div id="error-email" class="error-message"></div>
-        </div>
-        <div class="input-group">
-          <label for="password">Contraseña</label>
-          <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
-          <div id="error-password" class="error-message"></div>
-        </div>
-        <button type="submit" class="btn-register">Registrarse</button>
-      </form>
+     <form id="formRegistro" action="/registro" method="POST" novalidate>
+    <div class="input-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
+    </div>
+    <div class="input-group">
+        <label for="email">Correo Electrónico</label>
+        <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
+    </div>
+    <div class="input-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+    </div>
+    <button type="submit" class="btn-register">Registrarse</button>
+</form>
 
       <div class="login-link">
         ¿Ya tienes cuenta? <a href="/">Inicia sesión aquí</a>

@@ -34,11 +34,15 @@ public class App {
             ctx.render("registro.ftl", model);
         });
 
-        // Ruta para procesar el formulario de registro
         app.post("/registro", ctx -> {
             String nombre = ctx.formParam("nombre");
             String email = ctx.formParam("email");
             String password = ctx.formParam("password");
+
+            System.out.println("Datos recibidos:");
+            System.out.println("Nombre: " + nombre);
+            System.out.println("Email: " + email);
+            System.out.println("Contraseña: " + password);
 
             if (nombre == null || email == null || password == null || nombre.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 ctx.status(400).result("Faltan campos obligatorios");
@@ -53,11 +57,11 @@ public class App {
             }
 
             // Crear el usuario y guardarlo
-            Usuario nuevoUsuario = new Usuario(email, password);
+            Usuario nuevoUsuario = new Usuario(nombre, email, password);
             UsuarioDAO.guardarUsuario(nuevoUsuario);
 
             // Redirigir a la página de login después de registrarse
-            ctx.redirect("/");  // Redirige a la página de login
+            ctx.redirect("/");
         });
 
         // Ruta para el formulario de login (solo una definición para la ruta GET "/")

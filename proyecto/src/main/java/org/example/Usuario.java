@@ -9,7 +9,11 @@
 
        @Id
        @GeneratedValue(strategy = GenerationType.IDENTITY)
+
        private int id;
+
+        @Column(name = "nombre", nullable = false)
+        private String nombre;
 
             @Column(name = "email", nullable = false)
             private String email;
@@ -20,7 +24,8 @@
             // Constructor vacío requerido por Hibernate
             public Usuario() {}
 
-            public Usuario(String email, String contrasena) {
+            public Usuario(String nombre,String email, String contrasena) {
+                this.nombre = nombre;
                 this.email = email;
                 this.contrasena = contrasena;
             }
@@ -32,4 +37,6 @@
 
             public void setEmail(String email) { this.email = email; }
             public void setContrasena(String contrasena) { this.contrasena = contrasena; }
+            public String getNombre() { return nombre; }
+            public void setNombre(String nombre) { this.nombre = nombre; }
         }
