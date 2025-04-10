@@ -80,13 +80,14 @@
     </div>
     
     <script>
+        
         let historialPujas = [];
-        let offeredItems = [];
-
-     
+    
+        
         function pujar(idArticulo, precio) {
-            let nuevaPuja = prompt(`Introduce el dinero que deseas pujar por el artículo ${idArticulo}. El precio actual es ${precio} €`);
+            let nuevaPuja = prompt(`Introduce el monto que deseas pujar por el artículo ${idArticulo}. El precio actual es ${precio} €`);
             if (nuevaPuja && !isNaN(nuevaPuja) && parseFloat(nuevaPuja) > precio) {
+               
                 let historialItem = {
                     articulo: idArticulo,
                     monto: nuevaPuja,
@@ -96,10 +97,11 @@
                 actualizarHistorial();
                 alert(`¡Puja realizada con éxito! Tu oferta es ${nuevaPuja} €.`);
             } else {
-                alert('El dinero ofrecido en la puja debe ser mayor al precio actual.');
+                alert('El monto de la puja debe ser mayor al precio actual.');
             }
         }
-
+    
+        
         function actualizarHistorial() {
             let historyList = document.getElementById('history-list');
             historyList.innerHTML = '';
@@ -110,47 +112,6 @@
             });
         }
     </script>
-        
-    <script>
-           
-        function ofrecerArticulo() {
-                
-            let itemName = document.getElementById('item-name').value;
-            let itemDescription = document.getElementById('item-description').value;
-            let itemPrice = document.getElementById('item-price').value;
-            let itemImage = document.getElementById('item-image').value;
     
-                
-            if (itemName && itemDescription && itemPrice && itemImage) {
-                    
-                let itemDiv = document.createElement('div');
-                itemDiv.classList.add('auction-item');
-    
-              
-                itemDiv.innerHTML = `
-                    <img src="${itemImage}" alt="${itemName}">
-                    <div>
-                        <h3>${itemName}</h3>
-                        <p><strong>Descripción:</strong> ${itemDescription}</p>
-                        <p><strong>Precio inicial:</strong> ${itemPrice} €</p>
-                        </div>
-                    `;
-    
-                 
-                document.getElementById('offered-items-list').appendChild(itemDiv);
-    
-                   
-                document.getElementById('item-name').value = '';
-                document.getElementById('item-description').value = '';
-                document.getElementById('item-price').value = '';
-                document.getElementById('item-image').value = '';
-    
-                    alert('¡Artículo ofrecido con éxito!');
-                } else {
-                    alert('Por favor, completa todos los campos.');
-                }
-            }
-    </script>
-                
     </body>
     </html>
