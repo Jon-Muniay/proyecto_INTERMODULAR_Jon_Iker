@@ -1,6 +1,5 @@
 package org.example;
 
-import org.hibernate.Cache;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,6 +10,7 @@ public class UsuarioDAO {
     private static final SessionFactory sessionFactory = new Configuration()
             .configure("hibernate.cfg.xml")
             .buildSessionFactory();
+
     public static void guardarUsuario(Usuario usuario) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
@@ -37,11 +37,11 @@ public class UsuarioDAO {
         }
     }
 
-    public static Usuario obtenerUsuarioPorEmailYPassword(String email, String password) {
+    public static Usuario obtenerUsuarioPorEmailYPassword(String email, String contrasena) {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM Usuario WHERE email = :email AND contraseña = :password", Usuario.class)
+            return session.createQuery("FROM Usuario WHERE email = :email AND contrasena = :contrasena", Usuario.class)
                     .setParameter("email", email)
-                    .setParameter("password", password)
+                    .setParameter("contrasena", contrasena)  // <- AQUÍ QUITAMOS EL ESPACIO
                     .uniqueResult();
         }
     }
