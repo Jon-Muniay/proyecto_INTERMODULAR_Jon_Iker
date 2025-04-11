@@ -65,7 +65,7 @@ public class App {
         });
 
         // Ruta para procesar el login
-        app.post("/", ctx -> {  // Aquí procesamos el login en la ruta POST /
+        app.post("/login", ctx -> {
             String email = ctx.formParam("email");
             String password = ctx.formParam("password");
 
@@ -75,7 +75,7 @@ public class App {
                 return;
             }
 
-            // Buscar usuario en la base de datos (ejemplo usando un DAO)
+            // Buscar usuario en la base de datos
             Usuario usuario = UsuarioDAO.obtenerUsuarioPorEmailYPassword(email, password);
 
             // Verificar si el usuario existe
@@ -89,14 +89,6 @@ public class App {
 
             // Guardar al usuario en la sesión
             ctx.sessionAttribute("usuario", usuario);
-
-            // Obtener productos asociados al usuario (si corresponde)
-            List<Producto> productos = ProductoDAO.obtenerProductosPorEmail(email);
-
-            // Preparar el modelo con la información del usuario y productos
-            Map<String, Object> model = new HashMap<>();
-            model.put("usuario", usuario);
-            model.put("productos", productos);
 
             // Redirigir a la página de resultados
             ctx.redirect("/resultado");
@@ -125,10 +117,6 @@ public class App {
             ctx.render("resultado.ftl", model);
         });
 
-        // Ruta para cerrar sesión
-        app.get("/logout", ctx -> {
-            ctx.req().getSession().invalidate(); // Invalidar la sesión
-            ctx.redirect("/"); // Redirigir a la página de inicio de sesión
-        });
+
     }
 }

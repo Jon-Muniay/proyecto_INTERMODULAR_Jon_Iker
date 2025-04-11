@@ -1,35 +1,31 @@
 package org.example;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
-@Entity // Indica que esta clase es una entidad JPA
-@Table(name = "productos") // Nombre de la tabla en la base de datos
+@Entity
 public class Producto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática de ID
     private int id;
-
-    @Column(name = "nombre", nullable = false) // Asegura que el nombre no sea nulo
     private String nombre;
-
-    @Column(name = "precio", nullable = false) // Asegura que el precio no sea nulo
     private double precio;
 
+    @Column(name = "email")
+    private String email;
 
-
-
-    // Constructor vacío requerido por Hibernate
+    // Constructor
     public Producto() {}
 
-    // Constructor con parámetros
-    public Producto(String nombre, double precio ) {
+    public Producto(int id, String nombre, double precio, String email) {
+        this.id = id;
         this.nombre = nombre;
         this.precio = precio;
-
+        this.email = email;
     }
 
-    // Getters y setters
+    // Getters y Setters
     public int getId() {
         return id;
     }
@@ -54,15 +50,16 @@ public class Producto {
         this.precio = precio;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     @Override
     public String toString() {
-        return "Producto{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", precio=" + precio +
-
-                '}';
+        return "Producto{id=" + id + ", nombre='" + nombre + "', precio=" + precio + ", email='" + email + "'}";
     }
 }

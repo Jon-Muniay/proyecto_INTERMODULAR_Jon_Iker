@@ -37,11 +37,11 @@ public class UsuarioDAO {
         }
     }
 
-    public static Usuario obtenerUsuarioPorEmailYPassword(String email, String contrasena) {
+    public static Usuario obtenerUsuarioPorEmailYPassword(String email, String password) {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM Usuario WHERE email = :email AND contrasena = :contrasena", Usuario.class)
+            return session.createQuery("FROM Usuario WHERE email = :email AND password = :password", Usuario.class)
                     .setParameter("email", email)
-                    .setParameter("contrasena", contrasena)  // <- AQUÍ QUITAMOS EL ESPACIO
+                    .setParameter("password", password)  // <- AQUÍ QUITAMOS EL ESPACIO
                     .uniqueResult();
         }
     }

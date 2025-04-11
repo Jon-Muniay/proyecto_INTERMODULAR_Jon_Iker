@@ -121,17 +121,20 @@ text-decoration: underline;
         <img src="Image 3 abr 2025, 12_35_27.png" alt="Logo de la Tienda" class="logo">
       </div>
 
-      <form id="loginForm" action="#" method="POST">
-        <div class="input-group">
-          <label for="email">Correo Electrónico</label>
-          <input type="email" id="email" name="email" placeholder="Ingresa tu correo">
-        </div>
-        <div class="input-group">
-          <label for="password">Contraseña</label>
-          <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña">
-        </div>
-        <button type="submit" class="btn-login">Iniciar Sesión</button>
-      </form>
+      <form id="formLogin" action="/login" method="POST" novalidate>
+    <div class="input-group">
+        <label for="email">Correo Electrónico</label>
+        <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
+    </div>
+    <div class="input-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+    </div>
+    <button type="submit" class="btn-login">Iniciar Sesión</button>
+    <#if error??>
+        <p class="error-message">${error}</p>
+    </#if>
+</form>
 
       <p class="register-link">¿No tienes una cuenta? <a href="registro.html">Regístrate aquí</a></p>
     </div>

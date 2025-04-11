@@ -18,25 +18,25 @@
             @Column(name = "email", nullable = false)
             private String email;
 
-            @Column(name = "contrasena", nullable = false)
-            private String contrasena;
+            @Column(name = "password", nullable = false)
+            private String password;
 
             // Constructor vacío requerido por Hibernate
             public Usuario() {}
 
-            public Usuario(String nombre,String email, String contrasena) {
+            public Usuario(String nombre,String email, String password) {
                 this.nombre = nombre;
                 this.email = email;
-                this.contrasena = contrasena;
+                this.password = password;
             }
 
             // Getters y setters
             public int getId() { return id; }
             public String getEmail() { return email; }
-            public String getContrasena() { return contrasena; }
+            public String getpassword() { return password; }
 
             public void setEmail(String email) { this.email = email; }
-            public void setContrasena(String contrasena) { this.contrasena = contrasena; }
+            public void setpasswordString (String password) { this.password = password; }
             public String getNombre() { return nombre; }
             public void setNombre(String nombre) { this.nombre = nombre; }
         }
