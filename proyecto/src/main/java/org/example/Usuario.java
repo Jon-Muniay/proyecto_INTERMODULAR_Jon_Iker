@@ -1,42 +1,63 @@
-    package org.example;
+package org.example;
 
-    import jakarta.persistence.*;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "Usuarios")
+public class Usuario {
 
-    @Entity // Indica que esta clase es una entidad JPA
-    @Table(name = "Usuarios") // Nombre de la tabla en la base de datos
-    public class Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // Cambiado a Long
 
-       @Id
-       @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "nombre", nullable = false)
+    private String nombre;
 
-       private int id;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
-        @Column(name = "nombre", nullable = false)
-        private String nombre;
+    @Column(name = "contrasena", nullable = false) // Mapea el campo 'password' a la columna 'contrasena'
+    private String password;
 
-            @Column(name = "email", nullable = false)
-            private String email;
+    // Constructor vacío requerido por Hibernate
+    public Usuario() {}
 
-            @Column(name = "password", nullable = false)
-            private String password;
+    public Usuario(String nombre, String email, String password) {
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+    }
 
-            // Constructor vacío requerido por Hibernate
-            public Usuario() {}
+    // Getters y setters corregidos
+    public Long getId() {
+        return id;
+    }
 
-            public Usuario(String nombre,String email, String password) {
-                this.nombre = nombre;
-                this.email = email;
-                this.password = password;
-            }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-            // Getters y setters
-            public int getId() { return id; }
-            public String getEmail() { return email; }
-            public String getpassword() { return password; }
+    public String getNombre() {
+        return nombre;
+    }
 
-            public void setEmail(String email) { this.email = email; }
-            public void setpasswordString (String password) { this.password = password; }
-            public String getNombre() { return nombre; }
-            public void setNombre(String nombre) { this.nombre = nombre; }
-        }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}

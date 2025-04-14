@@ -118,7 +118,7 @@ text-decoration: underline;
         <h1>Crear cuenta</h1>
       </div>
 
-     <form id="formRegistro" action="/registro" method="POST" novalidate>
+     <<form id="formRegistro" action="/registro" method="POST" novalidate>
     <div class="input-group">
         <label for="nombre">Nombre</label>
         <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
