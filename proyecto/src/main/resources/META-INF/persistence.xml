@@ -10,7 +10,7 @@
         <class>org.example.Producto.Usuario</class>
 
         <properties>
-            <!-- Propiedades JDBC -->
+
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ROPAZON"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>

@@ -18,7 +18,7 @@ public class App {
         Javalin app = Javalin.create(config -> {
             config.fileRenderer(new JavalinFreemarker(freemarkerConfig));
             config.staticFiles.add(staticFiles -> {
-                staticFiles.directory = "/static"; // Asegúrate que apunta a: src/main/resources/static
+                staticFiles.directory = "/static";
                 staticFiles.hostedPath = "/static";
                 staticFiles.precompress = false;
             });
