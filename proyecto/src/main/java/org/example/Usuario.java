@@ -1,63 +1,35 @@
-package org.example;
+    package org.example;
 
-import jakarta.persistence.*;
+    import jakarta.persistence.*;
 
-@Entity
-@Table(name = "Usuarios")
-public class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Cambiado a Long
+    @Entity // Indica que esta clase es una entidad JPA
+    @Table(name = "Usuarios") // Nombre de la tabla en la base de datos
+    public class Usuario {
 
-    @Column(name = "nombre", nullable = false)
-    private String nombre;
+       @Id
+       @GeneratedValue(strategy = GenerationType.IDENTITY)
+       private int id;
 
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
+            @Column(name = "email", nullable = false)
+            private String email;
 
-    @Column(name = "contrasena", nullable = false) // Mapea el campo 'password' a la columna 'contrasena'
-    private String password;
+            @Column(name = "contrasena", nullable = false)
+            private String contrasena;
 
-    // Constructor vacío requerido por Hibernate
-    public Usuario() {}
+            // Constructor vacío requerido por Hibernate
+            public Usuario() {}
 
-    public Usuario(String nombre, String email, String password) {
-        this.nombre = nombre;
-        this.email = email;
-        this.password = password;
-    }
+            public Usuario(String email, String contrasena) {
+                this.email = email;
+                this.contrasena = contrasena;
+            }
 
-    // Getters y setters corregidos
-    public Long getId() {
-        return id;
-    }
+            // Getters y setters
+            public int getId() { return id; }
+            public String getEmail() { return email; }
+            public String getContrasena() { return contrasena; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-}
+            public void setEmail(String email) { this.email = email; }
+            public void setContrasena(String contrasena) { this.contrasena = contrasena; }
+        }

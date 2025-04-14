@@ -1,5 +1,6 @@
 package org.example;
 
+import org.hibernate.Cache;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -10,39 +11,52 @@ public class UsuarioDAO {
     private static final SessionFactory sessionFactory = new Configuration()
             .configure("hibernate.cfg.xml")
             .buildSessionFactory();
+    private static Cache HibernateUtil;
 
     public static void guardarUsuario(Usuario usuario) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            System.out.println("Guardando usuario: " + usuario.getNombre());
             session.persist(usuario);
             transaction.commit();
-            System.out.println("Usuario guardado correctamente.");
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            System.err.println("Error al guardar el usuario:");
             e.printStackTrace();
         } finally {
             session.close();
         }
     }
-
     public static Usuario obtenerUsuarioPorEmail(String email) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM Usuario WHERE email = :email", Usuario.class)
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Usuario usuario = null;
+        try {
+            usuario = session.createQuery("FROM Usuario WHERE email = :email", Usuario.class)
                     .setParameter("email", email)
                     .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
+        return usuario;
     }
 
-    public static Usuario obtenerUsuarioPorEmailYPassword(String email, String contrasena) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM Usuario WHERE email = :email AND contrasena = :contrasena", Usuario.class)
+    public static Usuario obtenerUsuarioPorEmailYPassword(String email, String password) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Usuario usuario = null;
+        try {
+            // Consulta HQL que busca un usuario con un email y una contraseña específicos
+            usuario = session.createQuery("FROM Usuario WHERE email = :email AND contraseña = :password", Usuario.class)
                     .setParameter("email", email)
-                    .setParameter("contrasena", contrasena)  // <- AQUÍ QUITAMOS EL ESPACIO
-                    .uniqueResult();
+                    .setParameter("password", password)
+                    .uniqueResult(); // Devuelve un único resultado
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close(); // Cierra la sesión para liberar recursos
         }
+        return usuario; // Retorna el usuario encontrado o null si no se encuentra
     }
+
 }
