@@ -64,18 +64,18 @@ public class App {
             ctx.render("login.ftl", model);  // Asegúrate de que el archivo login.ftl esté en la carpeta /templates
         });
 
-        // Ruta para procesar el login
+
         app.post("/login", ctx -> {
             String email = ctx.formParam("email");
             String password = ctx.formParam("password");
 
-            // Validación de campos
+
             if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
                 ctx.status(400).result("Faltan campos obligatorios");
                 return;
             }
 
-            // Buscar usuario en la base de datos
+
             Usuario usuario = UsuarioDAO.obtenerUsuarioPorEmailYPassword(email, password);
 
             // Verificar si el usuario existe
@@ -88,7 +88,7 @@ public class App {
             }
 
             // Guardar al usuario en la sesión
-            ctx.sessionAttribute("usuario", usuario);
+            ctx.sessionAttribute("usuario", usuario); // Asegúrate de que esto esté funcionando
 
             // Redirigir a la página de resultados
             ctx.redirect("/resultado");
@@ -101,7 +101,7 @@ public class App {
 
             // Si no hay usuario en la sesión, redirigir a la página de inicio de sesión
             if (usuario == null) {
-                ctx.redirect("/");
+                ctx.redirect("/"); // Asegúrate de que el usuario sea redirigido si no está en sesión
                 return;
             }
 

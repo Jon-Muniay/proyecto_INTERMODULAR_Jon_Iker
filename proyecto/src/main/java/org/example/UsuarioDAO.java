@@ -1,48 +1,45 @@
 package org.example;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Persistence;
 
 public class UsuarioDAO {
-
-    private static final SessionFactory sessionFactory = new Configuration()
-            .configure("hibernate.cfg.xml")
-            .buildSessionFactory();
-
-    public static void guardarUsuario(Usuario usuario) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            System.out.println("Guardando usuario: " + usuario.getNombre());
-            session.persist(usuario);
-            transaction.commit();
-            System.out.println("Usuario guardado correctamente.");
-        } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            System.err.println("Error al guardar el usuario:");
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-    }
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
 
     public static Usuario obtenerUsuarioPorEmail(String email) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM Usuario WHERE email = :email", Usuario.class)
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email", Usuario.class)
                     .setParameter("email", email)
-                    .uniqueResult();
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
         }
     }
 
-    public static Usuario obtenerUsuarioPorEmailYPassword(String email, String contrasena) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM Usuario WHERE email = :email AND contrasena = :contrasena", Usuario.class)
+    public static Usuario obtenerUsuarioPorEmailYPassword(String email, String password) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email AND u.password = :password", Usuario.class)
                     .setParameter("email", email)
-                    .setParameter("contrasena", contrasena)  // <- AQUÍ QUITAMOS EL ESPACIO
-                    .uniqueResult();
+                    .setParameter("password", password)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
         }
+    }
+
+    public static void guardarUsuario(Usuario usuario) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(usuario);
+        em.getTransaction().commit();
+        em.close();
     }
 }

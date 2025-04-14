@@ -24,7 +24,7 @@ public class ProductoDAO {
 
     // Método para obtener productos por email (usuario)
     public static List<Producto> obtenerProductosPorEmail(String email) {
-        return entityManager.createQuery("SELECT p FROM Producto p WHERE p.emailUsuario = :email", Producto.class)
+        return entityManager.createQuery("SELECT p FROM Producto p WHERE p.email = :email", Producto.class)
                 .setParameter("email", email)
                 .getResultList();
     }
