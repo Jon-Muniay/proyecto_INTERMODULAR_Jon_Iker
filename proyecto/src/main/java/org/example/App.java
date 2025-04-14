@@ -50,7 +50,7 @@ public class App {
             }
 
             // Crear el usuario y guardarlo
-            Usuario nuevoUsuario = new Usuario(nombre, email, password);
+            Usuario nuevoUsuario = new Usuario(nombre, email );
             UsuarioDAO.guardarUsuario(nuevoUsuario);
 
             // Redirigir a la página de login después de registrarse
