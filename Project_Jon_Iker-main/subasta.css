@@ -1,142 +1,115 @@
+/* Reset básico */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
-
-
-body {
-    background-color: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; 
-    min-height: 100vh; 
-    overflow-y: auto; 
-    padding: 20px; 
-}
-
-
-.container {
-    width: 80%;
-    margin: 0 auto;
-}
-
-h1 {
+  }
+  
+  /* Fondo general azul */
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom, #3498db, #2980b9);
+    color: #fff;
+    min-height: 100vh;
+  }
+  
+  /* Contenedor principal */
+  .container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #2c3e50;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Header con logo */
+  header {
     text-align: center;
-}
+    margin-bottom: 40px;
+  }
+  
+  header img {
+    width: 120px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  header h1 {
+    font-size: 2.8rem;
+    color: #fff;
+    text-shadow: 2px 2px #2c3e50;
+  }
+  
 
-.auction-item {
-    border: 1px solid #ccc;
+  h2, h3 {
+    color: #2c3e50;
+  }
+  
+ 
+  .auction-item {
+    background-color: #ecf0f1;
+    display: flex;
+    gap: 20px;
+    align-items: center;
     padding: 20px;
     margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.auction-item img {
-    max-width: 150px;
-    max-height: 150px;
-    margin-right: 20px;
-}
-
-.auction-item div {
-    flex: 1;
-}
-
-.button {
-    background-color: #00cbfd;
-    color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .auction-item:hover {
+    transform: scale(1.01);
+  }
+  
+  .auction-item img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #3498db;
+  }
+  
+  
+  .button {
+    display: inline-block;
     padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-}
-
-.button:hover {
-    background-color: #01ccff;
-}
-
-.history {
-    margin-top: 20px;
-    
-}
-
-.history h3 {
-    text-align: center;
-}
-
-.history ul li {
-    list-style-type: none;
-    margin-bottom: 10px;
-    padding: 5px;
-       
-}
-
-.offer-form {
-    background-color: #fff; 
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-    margin-bottom: 20px; 
-    width: 100%;
-    max-width: 500px;
-    
-}
-
-.offer-form label {
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-.offer-form input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.offer-form button {
-    margin-top: 15px;
-    width: 100%;
-    background-color: #00cbfd;
+    background-color: #3498db;
     color: white;
-    padding: 10px;
     border: none;
+    border-radius: 6px;
     cursor: pointer;
-}
-
-.offer-form button:hover {
-    background-color: #01ccff;
-}
-
-
-#offered-items-list {
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 15px; 
-    justify-content: center; 
-    margin-top: 20px;
-}
-
-.offered-item {
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    width: calc(33.33% - 20px); 
-    max-width: 300px;
-    text-align: center;
-}
-
-.offered-item img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .button:hover {
+    background-color: #2ecc71;
+  }
+  
+  
+  .history {
+    margin-top: 50px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    color: #2c3e50;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  }
+  
+  .history h3 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+  }
+  
+  #history-list {
+    list-style: disc inside;
+    padding-left: 20px;
+  }
+  
+  #history-list li {
     margin-bottom: 10px;
-}
-
-
-
+  }
+  
