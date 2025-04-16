@@ -91,11 +91,11 @@ public class App {
             ctx.sessionAttribute("usuario", usuario); // Asegúrate de que esto esté funcionando
 
             // Redirigir a la página de resultados
-            ctx.redirect("/resultado");
+            ctx.redirect("/usuarios");
         });
 
         // Ruta para mostrar el perfil y productos del usuario logueado
-        app.get("/resultado", ctx -> {
+        app.get("/usuarios", ctx -> {
             // Obtener el usuario de la sesión
             Usuario usuario = ctx.sessionAttribute("usuario");
 
@@ -114,7 +114,7 @@ public class App {
             model.put("productos", productos);
 
             // Renderizar la vista del resultado
-            ctx.render("resultado.ftl", model);
+            ctx.render("usuarios.ftl", model);
         });
 
 

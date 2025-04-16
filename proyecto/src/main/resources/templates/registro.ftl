@@ -2,30 +2,41 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registrarse - Tienda de Ropa</title>
-    <link rel="stylesheet" href="/estilos.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Tienda de Ropa</title>
+    <link rel="stylesheet" href="registro.css">
 </head>
 <body>
     <div class="container">
-        <h1>Regístrate</h1>
+        <div class="register-box">
 
-        <form action="/registrar" method="POST">
-            <div class="input-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
-            </div>
-            <div class="input-group">
-                <label for="email">Correo Electrónico</label>
-                <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
-            </div>
-            <button type="submit">Registrar</button>
-        </form>
+            <div class="header">
+                <img src="Imagenes/Image 3 abr 2025, 12_35_27.png" alt="Logo de la Tienda" class="logo">
 
-        <p>¿Ya tienes cuenta? <a href="/">Inicia sesión aquí</a></p>
+            </div>
+
+
+            <form action="#" method="POST">
+                <div class="input-group">
+                    <label for="name">Nombre Completo</label>
+                    <input type="text" id="name" name="name" placeholder="Ingresa tu nombre" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" placeholder="Crea una contraseña" required>
+                </div>
+                <div class="input-group">
+                    <label for="confirm-password">Confirmar Contraseña</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirma tu contraseña" required>
+                </div>
+                <button type="submit" class="btn-register">Registrarse</button>
+            </form>
+            <p class="login-link">¿Ya tienes una cuenta? <a href="login.html">Inicia sesión aquí</a></p>
+        </div>
     </div>
 </body>
 </html>
