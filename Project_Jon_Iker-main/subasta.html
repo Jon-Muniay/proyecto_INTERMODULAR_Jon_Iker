@@ -8,24 +8,31 @@
 </head>
 <body>
 
+    <header>
+        <img src="Imagenes/Image 3 abr 2025, 12_35_27.png" alt="Logo de la tienda" style="width: 120px; display: block; margin: 20px auto;">
+        <h1 style="text-align:center; color:white; text-shadow: 2px 2px #2c3e50;">Bienvenido al Sistema de Subastas</h1>
+
+     
+        <div style="position: absolute; right: 20px; top: 20px;">
+            <button class="button" onclick="window.location.href='usuarios.html'">MI USUARIO</button>
+        </div>
+    </header>
+
     <div class="container">
         <h1>Bienvenido al Sistema de Subastas</h1>
     
-        
         <h2>Artículos Disponibles para Pujar</h2>
     
-        
         <div class="auction-item">
             <img src="Imagenes/chandal.png" alt="Chandal">
             <div>
                 <h3>Artículo 1: Chandal</h3>
-                <p><strong>Descripción:</strong> Chandal cómodo para hacer ejercicio </p>
+                <p><strong>Descripción:</strong> Chandal cómodo para hacer ejercicio</p>
                 <p><strong>Precio actual de la puja:</strong> 50 €</p>
                 <button class="button" onclick="pujar(1, 50)">Pujar</button>
             </div>
         </div>
     
-        
         <div class="auction-item">
             <img src="Imagenes/vaqueros.png" alt="Pantalones Vaqueros">
             <div>
@@ -36,9 +43,8 @@
             </div>
         </div>
     
-        
         <div class="auction-item">
-            <img src="Imagenes/camiseta.png" alt="Camiseta ">
+            <img src="Imagenes/camiseta.png" alt="Camiseta">
             <div>
                 <h3>Artículo 3: Camiseta</h3>
                 <p><strong>Descripción:</strong> Camiseta barata y de buena calidad</p>
@@ -59,7 +65,6 @@
         let historialPujas = [];
         let offeredItems = [];
 
-     
         function pujar(idArticulo, precio) {
             let nuevaPuja = prompt(`Introduce el dinero que deseas pujar por el artículo ${idArticulo}. El precio actual es ${precio} €`);
             if (nuevaPuja && !isNaN(nuevaPuja) && parseFloat(nuevaPuja) > precio) {
@@ -88,49 +93,37 @@
     </script>
         
     <script>
-           
         function ofrecerArticulo() {
-                
             let itemName = document.getElementById('item-name').value;
             let itemDescription = document.getElementById('item-description').value;
             let itemPrice = document.getElementById('item-price').value;
             let itemImage = document.getElementById('item-image').value;
     
-                
             if (itemName && itemDescription && itemPrice && itemImage) {
-                    
                 let itemDiv = document.createElement('div');
                 itemDiv.classList.add('auction-item');
     
-              
                 itemDiv.innerHTML = `
                     <img src="${itemImage}" alt="${itemName}">
                     <div>
                         <h3>${itemName}</h3>
                         <p><strong>Descripción:</strong> ${itemDescription}</p>
                         <p><strong>Precio inicial:</strong> ${itemPrice} €</p>
-                        </div>
-                    `;
+                    </div>
+                `;
     
-                 
                 document.getElementById('offered-items-list').appendChild(itemDiv);
     
-                   
                 document.getElementById('item-name').value = '';
                 document.getElementById('item-description').value = '';
                 document.getElementById('item-price').value = '';
                 document.getElementById('item-image').value = '';
     
-                    alert('¡Artículo ofrecido con éxito!');
-                } else {
-                    alert('Por favor, completa todos los campos.');
-                }
+                alert('¡Artículo ofrecido con éxito!');
+            } else {
+                alert('Por favor, completa todos los campos.');
             }
+        }
     </script>
-
-    
-
-
-
 </body>
 </html>

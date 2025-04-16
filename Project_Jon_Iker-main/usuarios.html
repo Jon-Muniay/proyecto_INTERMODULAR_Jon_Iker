@@ -3,154 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subastas</title>
+    <title>Perfil de Usuario</title>
     <link rel="stylesheet" href="usuarios.css">
 </head>
-
 <body>
 
     <div class="container">
-        <h1>Bienvenido al Sistema de Subastas</h1>
-    
         
-        <h2>Artículos Disponibles para Pujar</h2>
-    
-        
-        <div class="auction-item">
-            <img src="Imagenes/chandal.png" alt="Chandal">
-            <div>
-                <h3>Artículo 1: Chandal</h3>
-                <p><strong>Descripción:</strong> Chandal cómodo para hacer ejercicio </p>
-                <p><strong>Precio actual de la puja:</strong> 50 €</p>
-                <button class="button" onclick="pujar(1, 50)">Pujar</button>
+        <header>
+            <img src="Imagenes/Image 3 abr 2025, 12_35_27.png" alt="Logo de la tienda" class="logo">
+            <h1>Perfil de Usuario</h1>
+
+            <!-- Botones de navegación y botón de cerrar sesión -->
+            <div class="header-buttons">
+                <button class="button" onclick="window.location.href='menú.html'">Ir al Menú</button> 
+                <button class="button" onclick="window.location.href='subasta.html'">Ir a Subasta</button> 
+                <button class="button" onclick="confirmarCerrarSesion()">Cerrar sesión</button>
             </div>
-        </div>
-    
-        
-        <div class="auction-item">
-            <img src="Imagenes/vaqueros.png" alt="Pantalones Vaqueros">
-            <div>
-                <h3>Artículo 2: Pantalones vaqueros</h3>
-                <p><strong>Descripción:</strong> Pantalones muy abrigados, ideales para invierno</p>
-                <p><strong>Precio actual de la puja:</strong> 15 €</p>
-                <button class="button" onclick="pujar(2, 15)">Pujar</button>
+        </header>
+
+        <section class="user-info">
+            <img src="Imagenes/" alt="Foto de Perfil" class="user-photo">
+            <div class="user-details">
+                <h2>Juan Pérez</h2>
+                <p><strong>Email:</strong> juanperez@example.com</p>
+                <p><strong>Dirección:</strong> Calle Ficticia, 123, Madrid</p>
+                <p><strong>Fecha de Registro:</strong> 12/08/2024</p>
+                
+                <button class="button" onclick="window.location.href='editarPerfil.html'">Editar Perfil</button>
             </div>
-        </div>
-    
-        
-        <div class="auction-item">
-            <img src="Imagenes/camiseta.png" alt="Camiseta ">
-            <div>
-                <h3>Artículo 3: Camiseta</h3>
-                <p><strong>Descripción:</strong> Camiseta barata y de buena calidad</p>
-                <p><strong>Precio actual de la puja:</strong> 7 €</p>
-                <button class="button" onclick="pujar(3, 7)">Pujar</button>
-            </div>
-        </div>
-    
-        <h2>Ofrece tu Artículo</h2><br>
-    <div class="offer-form">
-        <h3>Formulario para ofrecer un artículo</h3><br>
-        <label for="item-name"><strong>Nombre del artículo:</strong></label>
-        <input type="text" placeholder="Nombre del artículo" required>
+        </section>
 
-        <label for="item-description"><strong>descripción del artículo:</strong></label>
-        <input type="text" placeholder="Descripción del artículo" required>
-
-        <label for="item-price"><strong>Precio inicial (€):</strong></label>
-        <input type="number" placeholder="Precio inicial" required>
-
-        <label for="item-image"><strong>URL de la imagen:</strong></label>
-        <input type="text" placeholder="URL de la imagen del artículo" required><br>
-
-        <button class="button" onclick="ofrecerArticulo()">Ofrecer Artículo</button>
+        <section class="purchase-history">
+            <h3>Historial de Compras</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Artículo</th>
+                        <th>Precio</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chandal</td>
+                        <td>50 €</td>
+                        <td>15/03/2025</td>
+                    </tr>
+                    <tr>
+                        <td>Pantalones Vaqueros</td>
+                        <td>30 €</td>
+                        <td>20/02/2025</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </div>
 
-    <h3>Artículos Ofrecidos por los Usuarios</h3>
-    <div id="offered-items-list">
-        
-    </div>
-
-        <div class="history">
-            <h3>Historial de Pujas</h3>
-            <ul id="history-list">
-               
-            </ul>
-        </div>
-    </div>
-    
     <script>
-        let historialPujas = [];
-        let offeredItems = [];
-
-     
-        function pujar(idArticulo, precio) {
-            let nuevaPuja = prompt(`Introduce el dinero que deseas pujar por el artículo ${idArticulo}. El precio actual es ${precio} €`);
-            if (nuevaPuja && !isNaN(nuevaPuja) && parseFloat(nuevaPuja) > precio) {
-                let historialItem = {
-                    articulo: idArticulo,
-                    monto: nuevaPuja,
-                    fecha: new Date().toLocaleString()
-                };
-                historialPujas.push(historialItem);
-                actualizarHistorial();
-                alert(`¡Puja realizada con éxito! Tu oferta es ${nuevaPuja} €.`);
-            } else {
-                alert('El dinero ofrecido en la puja debe ser mayor al precio actual.');
+        function confirmarCerrarSesion() {
+            const confirmar = confirm("¿Estás seguro de que quieres cerrar sesión?");
+            if (confirmar) {
+                window.location.href = 'login.html';  
             }
         }
+    </script>
 
-        function actualizarHistorial() {
-            let historyList = document.getElementById('history-list');
-            historyList.innerHTML = '';
-            historialPujas.forEach(puja => {
-                let listItem = document.createElement('li');
-                listItem.textContent = `Pujaste ${puja.monto} € por el artículo ${puja.articulo} el ${puja.fecha}.`;
-                historyList.appendChild(listItem);
-            });
-        }
-    </script>
-        
-    <script>
-           
-        function ofrecerArticulo() {
-                
-            let itemName = document.getElementById('item-name').value;
-            let itemDescription = document.getElementById('item-description').value;
-            let itemPrice = document.getElementById('item-price').value;
-            let itemImage = document.getElementById('item-image').value;
-    
-                
-            if (itemName && itemDescription && itemPrice && itemImage) {
-                    
-                let itemDiv = document.createElement('div');
-                itemDiv.classList.add('auction-item');
-    
-              
-                itemDiv.innerHTML = `
-                    <img src="${itemImage}" alt="${itemName}">
-                    <div>
-                        <h3>${itemName}</h3>
-                        <p><strong>Descripción:</strong> ${itemDescription}</p>
-                        <p><strong>Precio inicial:</strong> ${itemPrice} €</p>
-                        </div>
-                    `;
-    
-                 
-                document.getElementById('offered-items-list').appendChild(itemDiv);
-    
-                   
-                document.getElementById('item-name').value = '';
-                document.getElementById('item-description').value = '';
-                document.getElementById('item-price').value = '';
-                document.getElementById('item-image').value = '';
-    
-                    alert('¡Artículo ofrecido con éxito!');
-                } else {
-                    alert('Por favor, completa todos los campos.');
-                }
-            }
-    </script>
-                
-    </body>
-    </html>
+</body>
+</html>
