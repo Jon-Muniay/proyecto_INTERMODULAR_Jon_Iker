@@ -6,7 +6,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 
 public class UsuarioDAO {
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("ROPAZON");
 
     public static Usuario obtenerUsuarioPorEmail(String email) {
         EntityManager em = emf.createEntityManager();

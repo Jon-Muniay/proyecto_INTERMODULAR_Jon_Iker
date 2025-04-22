@@ -30,7 +30,6 @@ public class App {
             model.put("titulo", "Registrar - Tienda de Ropa");
             ctx.render("registro.ftl", model);
         });
-
         app.post("/registro", ctx -> {
             String nombre = ctx.formParam("nombre");
             String email = ctx.formParam("email");
@@ -50,7 +49,7 @@ public class App {
             }
 
             // Crear el usuario y guardarlo
-            Usuario nuevoUsuario = new Usuario(nombre, email );
+            Usuario nuevoUsuario = new Usuario(nombre, email ,password);
             UsuarioDAO.guardarUsuario(nuevoUsuario);
 
             // Redirigir a la página de login después de registrarse
@@ -64,22 +63,20 @@ public class App {
             ctx.render("login.ftl", model);  // Asegúrate de que el archivo login.ftl esté en la carpeta /templates
         });
 
-
         app.post("/login", ctx -> {
             String email = ctx.formParam("email");
-            String password = ctx.formParam("password");
+            String contrasena = ctx.formParam("password");
 
-
-            if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
+            if (email == null || contrasena == null || email.isEmpty() || contrasena.isEmpty()) {
                 ctx.status(400).result("Faltan campos obligatorios");
                 return;
             }
 
+            // Obtener el usuario por email
+            Usuario usuario = UsuarioDAO.obtenerUsuarioPorEmail(email);
 
-            Usuario usuario = UsuarioDAO.obtenerUsuarioPorEmailYPassword(email, password);
-
-            // Verificar si el usuario existe
-            if (usuario == null) {
+            // Verificar si el usuario existe y la contraseña es correcta
+            if (usuario == null || !usuario.verificarContrasena(contrasena)) {
                 Map<String, Object> model = new HashMap<>();
                 model.put("titulo", "Iniciar Sesión - Tienda de Ropa");
                 model.put("error", "El usuario no existe o la contraseña es incorrecta");
@@ -88,9 +85,9 @@ public class App {
             }
 
             // Guardar al usuario en la sesión
-            ctx.sessionAttribute("usuario", usuario); // Asegúrate de que esto esté funcionando
+            ctx.sessionAttribute("usuario", usuario);
 
-            // Redirigir a la página de resultados
+            // Redirigir a la página personalizada del usuario
             ctx.redirect("/usuarios");
         });
 
@@ -101,7 +98,7 @@ public class App {
 
             // Si no hay usuario en la sesión, redirigir a la página de inicio de sesión
             if (usuario == null) {
-                ctx.redirect("/"); // Asegúrate de que el usuario sea redirigido si no está en sesión
+                ctx.redirect("/");
                 return;
             }
 
@@ -117,6 +114,10 @@ public class App {
             ctx.render("usuarios.ftl", model);
         });
 
-
+        // Ruta para cerrar sesión
+        app.post("/logout", ctx -> {
+            ctx.sessionAttribute("usuario", null); // Elimina al usuario de la sesión
+            ctx.redirect("/"); // Redirige al inicio de sesión
+        });
     }
 }

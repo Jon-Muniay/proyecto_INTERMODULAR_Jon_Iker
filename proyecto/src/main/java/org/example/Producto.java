@@ -2,34 +2,35 @@ package org.example;
 
 import jakarta.persistence.*;
 
-@Entity // Indica que esta clase es una entidad JPA
-@Table(name = "productos") // Nombre de la tabla en la base de datos
+@Entity
+@Table(name = "productos")
 public class Producto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática de ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "nombre", nullable = false) // Asegura que el nombre no sea nulo
+    @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "precio", nullable = false) // Asegura que el precio no sea nulo
+    @Column(name = "precio", nullable = false)
     private double precio;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
-
-
-    // Constructor vacío requerido por Hibernate
+    // Constructor vacío requerido por JPA
     public Producto() {}
 
-    // Constructor con parámetros
-    public Producto(String nombre, double precio ) {
+    // Constructor útil para instancias rápidas
+    public Producto(String nombre, double precio, Usuario usuario) {
         this.nombre = nombre;
         this.precio = precio;
-
+        this.usuario = usuario;
     }
 
-    // Getters y setters
+    // Getters y Setters
     public int getId() {
         return id;
     }
@@ -54,7 +55,13 @@ public class Producto {
         this.precio = precio;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     @Override
     public String toString() {
@@ -62,7 +69,7 @@ public class Producto {
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", precio=" + precio +
-
+                ", usuario=" + (usuario != null ? usuario.getEmail() : "null") +
                 '}';
     }
 }

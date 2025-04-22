@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Productos</title>
+    <link rel="stylesheet" href="SubirOfertas.css">
+</head>
+<body>
+
+    <h1>Subir un Nuevo Producto</h1>
+
+    <div class="form-container">
+        <form action="procesar_producto.php" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="nombre_producto">Nombre del Producto</label>
+                <input type="text" id="nombre_producto" name="nombre_producto" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción del Producto</label>
+                <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="precio">Precio del Producto (€)</label>
+                <input type="number" id="precio" name="precio" min="0.01" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="imagen_producto">Imagen del Producto</label>
+                <input type="file" id="imagen_producto" name="imagen_producto" accept="image/*">
+            </div>
+            <button type="submit">Subir Producto</button>
+        </form>
+    </div>
+
+</body>
+</html>

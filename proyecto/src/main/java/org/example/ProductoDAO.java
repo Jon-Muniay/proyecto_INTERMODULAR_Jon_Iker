@@ -7,14 +7,12 @@ import jakarta.persistence.Persistence;
 import java.util.List;
 
 public class ProductoDAO {
-    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ROPAZON");
-    private static EntityManager entityManager = entityManagerFactory.createEntityManager();
+    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ROPAZON");
+    private static final EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-
-
+    // Obtener todos los productos
     public static List<Producto> obtenerTodosProductos() {
-        String query = "SELECT p FROM Producto p";
-        return entityManager.createQuery(query, Producto.class).getResultList();
+        return entityManager.createQuery("SELECT p FROM Producto p", Producto.class).getResultList();
     }
 
     // Obtener un producto por su ID
@@ -22,14 +20,15 @@ public class ProductoDAO {
         return entityManager.find(Producto.class, id);
     }
 
-    // Método para obtener productos por email (usuario)
+    // Obtener productos por email del usuario
     public static List<Producto> obtenerProductosPorEmail(String email) {
-        return entityManager.createQuery("SELECT p FROM Producto p WHERE p.email = :email", Producto.class)
+        return entityManager.createQuery(
+                        "SELECT p FROM Producto p WHERE p.usuario.email = :email", Producto.class)
                 .setParameter("email", email)
                 .getResultList();
     }
 
-
+    // Guardar un nuevo producto
     public static void guardarProducto(Producto producto) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -59,7 +58,7 @@ public class ProductoDAO {
         }
     }
 
-    // Eliminar un producto por su ID
+    // Eliminar un producto por ID
     public static void eliminarProducto(int id) {
         Producto producto = obtenerProductoPorId(id);
         if (producto != null) {
@@ -77,7 +76,7 @@ public class ProductoDAO {
         }
     }
 
-    // Cerrar la conexión
+    // Cerrar conexión
     public static void cerrar() {
         if (entityManager != null && entityManager.isOpen()) {
             entityManager.close();
@@ -87,6 +86,3 @@ public class ProductoDAO {
         }
     }
 }
-
-
-
