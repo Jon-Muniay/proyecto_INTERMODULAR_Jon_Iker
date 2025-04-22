@@ -7,6 +7,116 @@
     <link rel="stylesheet" href="Administradores.css">
 
 </head>
+<style>/* Reset básico */
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+
+       body {
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           background-color: #f5f7fa;
+           color: #333;
+           line-height: 1.6;
+           padding: 0 20px;
+       }
+
+       header {
+           background-color: #007BFF;
+           color: white;
+           padding: 20px 0;
+           text-align: center;
+           border-radius: 0 0 10px 10px;
+           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+       }
+
+       header h1 {
+           margin-bottom: 10px;
+           font-size: 2.2rem;
+       }
+
+       nav ul {
+           list-style: none;
+           display: flex;
+           justify-content: center;
+           gap: 30px;
+       }
+
+       nav a {
+           color: white;
+           text-decoration: none;
+           font-weight: bold;
+           padding: 8px 15px;
+           border-radius: 5px;
+           transition: background-color 0.3s ease;
+       }
+
+       nav a:hover {
+           background-color: rgba(255, 255, 255, 0.2);
+       }
+
+       main {
+           max-width: 1000px;
+           margin: 40px auto;
+       }
+
+       section {
+           background-color: white;
+           padding: 25px;
+           margin-bottom: 30px;
+           border-radius: 10px;
+           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+       }
+
+       h2 {
+           color: #007BFF;
+           margin-bottom: 15px;
+       }
+
+       table {
+           width: 100%;
+           border-collapse: collapse;
+           margin-top: 15px;
+       }
+
+       table, th, td {
+           border: 1px solid #ddd;
+       }
+
+       th, td {
+           padding: 12px;
+           text-align: left;
+       }
+
+       th {
+           background-color: #007BFF;
+           color: white;
+       }
+
+       td ul {
+           padding-left: 18px;
+       }
+
+       button {
+           padding: 8px 12px;
+           margin-right: 5px;
+           background-color: #007BFF;
+           color: white;
+           border: none;
+           border-radius: 5px;
+           font-weight: bold;
+           cursor: pointer;
+           transition: background-color 0.3s ease;
+       }
+
+       button:hover {
+           background-color: #0056b3;
+       }
+
+       form p {
+           margin-bottom: 15px;
+       } </style>
 <body>
     <header>
         <h1>Panel de Administración</h1>
