@@ -16,18 +16,21 @@ public class Producto {
     @Column(name = "precio", nullable = false)
     private double precio;
 
+    @Column(name = "descripcion", nullable = false)
+    private String descripcion;
+
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "usuario_id", nullable = true)  // Esta es la clave foránea que vincula Producto con Usuario
     private Usuario usuario;
 
     // Constructor vacío requerido por JPA
     public Producto() {}
 
     // Constructor útil para instancias rápidas
-    public Producto(String nombre, double precio, Usuario usuario) {
+    public Producto(String nombre, double precio, String descripcion) {
         this.nombre = nombre;
         this.precio = precio;
-        this.usuario = usuario;
+        this.descripcion = descripcion;
     }
 
     // Getters y Setters
@@ -55,6 +58,14 @@ public class Producto {
         this.precio = precio;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public Usuario getUsuario() {
         return usuario;
     }
@@ -69,7 +80,7 @@ public class Producto {
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", precio=" + precio +
-                ", usuario=" + (usuario != null ? usuario.getEmail() : "null") +
+                ", descripcion='" + descripcion + '\'' +
                 '}';
     }
 }

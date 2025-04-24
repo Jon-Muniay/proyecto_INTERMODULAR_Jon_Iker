@@ -37,49 +37,50 @@ public class App {
             String email = ctx.formParam("email");
             String password = ctx.formParam("password");
 
-            // Validación de campos
             if (nombre == null || email == null || password == null || nombre.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 ctx.status(400).result("Faltan campos obligatorios");
                 return;
             }
 
-            // Verificar si el usuario ya existe
             Usuario usuarioExistente = UsuarioDAO.obtenerUsuarioPorEmail(email);
             if (usuarioExistente != null) {
                 ctx.status(400).result("El usuario ya existe");
                 return;
             }
 
-            // Crear el nuevo usuario y guardarlo en la base de datos
+            // Crear y guardar el nuevo usuario
             Usuario nuevoUsuario = new Usuario(nombre, email, password);
             UsuarioDAO.guardarUsuario(nuevoUsuario);
 
-            // Redirigir al login después del registro
+            // Insertar productos automáticamente después de crear el usuario
+            ProductoDAO.insertarDatosAutomaticos();  // Aquí pasamos el usuario para asociar los productos
+
+            // Redirigir a la página de login o a otra página de éxito
             ctx.redirect("/");
         });
 
-        // Ruta para el formulario de login
+
+
+
+        // Ruta para el login
         app.get("/", ctx -> {
             Map<String, Object> model = new HashMap<>();
             model.put("titulo", "Iniciar Sesión - Tienda de Ropa");
-            ctx.render("login.ftl", model); // Asegúrate de que login.ftl esté en /templates
+            ctx.render("login.ftl", model);
         });
 
-        // Ruta para procesar el login
+        // Procesar login
         app.post("/login", ctx -> {
             String email = ctx.formParam("email");
             String contrasena = ctx.formParam("password");
 
-            // Validación de campos vacíos
             if (email == null || contrasena == null || email.isEmpty() || contrasena.isEmpty()) {
                 ctx.status(400).result("Faltan campos obligatorios");
                 return;
             }
 
-            // Obtener el usuario por email
             Usuario usuario = UsuarioDAO.obtenerUsuarioPorEmail(email);
 
-            // Verificar existencia del usuario y si la contraseña es correcta
             if (usuario == null || !usuario.verificarContrasena(contrasena)) {
                 Map<String, Object> model = new HashMap<>();
                 model.put("titulo", "Iniciar Sesión - Tienda de Ropa");
@@ -88,58 +89,65 @@ public class App {
                 return;
             }
 
-            // Si el usuario es admin, redirigir a la vista de administrador
+            ctx.sessionAttribute("usuario", usuario);
+
             if (email.equals("admin@gmail.com")) {
-                ctx.sessionAttribute("usuario", usuario);
-                ctx.redirect("/administradores"); // Redirige a la página de administradores
+                ctx.redirect("/administradores");
             } else {
-                ctx.sessionAttribute("usuario", usuario);
-                ctx.redirect("/usuarios"); // Redirige a la página de usuarios
+                ctx.redirect("/usuarios");
             }
         });
 
-        // Ruta para la vista de administradores
+        // Vista para administradores
         app.get("/administradores", ctx -> {
             Usuario usuario = ctx.sessionAttribute("usuario");
 
-            // Verificar si el usuario está autenticado y si es el administrador
             if (usuario == null || !usuario.getEmail().equals("admin@gmail.com")) {
-                ctx.redirect("/");  // Si no es admin, redirige al login
+                ctx.redirect("/");
                 return;
             }
 
-            // Renderizar la vista de administrador
             Map<String, Object> model = new HashMap<>();
             model.put("titulo", "Panel de Administración");
-            ctx.render("administradores.ftl", model); // Renderiza administradores.ftl
+            ctx.render("administradores.ftl", model);
         });
 
-        // Ruta para mostrar el perfil del usuario logueado
+        // Vista para usuarios
         app.get("/usuarios", ctx -> {
             Usuario usuario = ctx.sessionAttribute("usuario");
 
-            // Si no hay usuario en la sesión, redirigir al login
             if (usuario == null) {
-                ctx.redirect("/");  // Redirige al login si no hay usuario en sesión
+                ctx.redirect("/");
                 return;
             }
 
-            // Obtener productos asociados al usuario
             List<Producto> productos = ProductoDAO.obtenerProductosPorEmail(usuario.getEmail());
 
-            // Preparar los datos para la vista
             Map<String, Object> model = new HashMap<>();
             model.put("usuario", usuario);
             model.put("productos", productos);
 
-            // Renderizar la vista del perfil de usuario
-            ctx.render("usuarios.ftl", model); // Renderiza usuarios.ftl
+            ctx.render("usuarios.ftl", model);
         });
 
-        // Ruta para cerrar sesión
+        app.get("/listaPujas", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("usuario");
+            if (usuario == null) {
+                ctx.redirect("/");
+                return;
+            }
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("usuario", usuario);
+            // Lo que necesites cargar, por ejemplo:
+            ctx.render("listaPujas.ftl", model);
+        });
+
+        // Logout
         app.post("/logout", ctx -> {
-            ctx.sessionAttribute("usuario", null); // Elimina el usuario de la sesión
-            ctx.redirect("/"); // Redirige al login
+            ctx.sessionAttribute("usuario", null);
+            ctx.redirect("/");
         });
     }
+
 }

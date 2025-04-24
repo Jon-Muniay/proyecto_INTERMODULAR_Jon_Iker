@@ -3,7 +3,7 @@
     <session-factory>
         <!-- Configuración de la base de datos -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ROPAZON</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ropazon</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">root</property>
 
@@ -13,7 +13,11 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
 
+        <!-- Activar importación del archivo import.sql -->
+        <property name="hibernate.hbm2ddl.import_files">import.sql</property>
+
         <!-- Mapeo de entidades -->
         <mapping class="org.example.Usuario"/>
+        <mapping class="org.example.Producto"/>
     </session-factory>
 </hibernate-configuration>

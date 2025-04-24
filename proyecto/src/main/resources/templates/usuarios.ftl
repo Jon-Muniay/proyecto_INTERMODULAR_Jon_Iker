@@ -161,7 +161,7 @@
 
             <!-- Botones de navegación y botón de cerrar sesión -->
             <div class="header-buttons">
-                <button class="button" onclick="window.location.href='/menu'">Ir al Menú</button>
+        <button class="button" onclick="window.location.href='/listaPujas'">Ir al Menú</button>
                 <button class="button" onclick="window.location.href='/subasta'">Ir a Subasta</button>
                 <button class="button" onclick="confirmarCerrarSesion()">Cerrar sesión</button>
             </div>
@@ -170,7 +170,7 @@
         <section class="user-info">
             <img src="/static/Imagenes/user-photo.jpg" alt="Foto de Perfil" class="user-photo">
             <div class="user-details">
-              <h2>${usuario.nombre?default("Usuario desconocido")}</h2>
+                <h1><strong>nombre:</strong> ${usuario.nombre!"Nombre no disponible"}</h1>
 
                 <p><strong>Email:</strong> ${usuario.email!"Email no disponible"}</p>
 
