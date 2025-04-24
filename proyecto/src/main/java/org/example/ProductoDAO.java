@@ -1,10 +1,15 @@
 package org.example;
 
+import com.mysql.cj.Session;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import jakarta.transaction.Transaction;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProductoDAO {
@@ -120,8 +125,43 @@ public class ProductoDAO {
         }
     }
 
+    public static void modificarProducto(int id, String nombre, double precio, String descripcion) {
+        String sql = "UPDATE productos SET nombre = ?, precio = ?, descripcion = ? WHERE id = ?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, nombre);
+            pstmt.setDouble(2, precio);
+            pstmt.setString(3, descripcion);
+            pstmt.setInt(4, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void anadirProducto(Producto nuevoProducto) {
+        String sql = "INSERT INTO productos (nombre, precio, descripcion) VALUES (?, ?, ?)";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Usamos los métodos get para obtener los valores del objeto Producto
+            pstmt.setString(1, nuevoProducto.getNombre());
+            pstmt.setDouble(2, nuevoProducto.getPrecio());
+            pstmt.setString(3, nuevoProducto.getDescripcion());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+   
+
+
+
     // Cerrar la conexión con la base de datos
     public static void cerrar() {
         if (emf.isOpen()) emf.close();
     }
+
+
 }

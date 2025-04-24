@@ -59,9 +59,6 @@ public class App {
             ctx.redirect("/");
         });
 
-
-
-
         // Ruta para el login
         app.get("/", ctx -> {
             Map<String, Object> model = new HashMap<>();
@@ -107,8 +104,12 @@ public class App {
                 return;
             }
 
+            // Obtener lista de productos
+            List<Producto> productos = ProductoDAO.obtenerTodosProductos();
+
             Map<String, Object> model = new HashMap<>();
             model.put("titulo", "Panel de Administración");
+            model.put("productos", productos);
             ctx.render("administradores.ftl", model);
         });
 
@@ -130,17 +131,47 @@ public class App {
             ctx.render("usuarios.ftl", model);
         });
 
-        app.get("/listaPujas", ctx -> {
-            Usuario usuario = ctx.sessionAttribute("usuario");
-            if (usuario == null) {
-                ctx.redirect("/");
-                return;
+        // Ruta para eliminar producto
+        app.post("/administrador/eliminar-producto", ctx -> {
+            int idProducto = Integer.parseInt(ctx.formParam("id_producto"));
+            ProductoDAO.eliminarProducto(idProducto);
+            ctx.redirect("/administradores");
+        });
+
+        // Ruta para modificar producto
+        app.post("/administrador/modificar-producto", ctx -> {
+            int idProducto = Integer.parseInt(ctx.formParam("id_producto"));
+            String nombre = ctx.formParam("nombre");
+            double precio = Double.parseDouble(ctx.formParam("precio"));
+            String descripcion = ctx.formParam("descripcion");
+
+            Producto producto = ProductoDAO.obtenerProductoPorId(idProducto);
+            if (producto != null) {
+                producto.setNombre(nombre);
+                producto.setPrecio(precio);
+                producto.setDescripcion(descripcion);
+
+                ProductoDAO.actualizarProducto(producto);
             }
 
-            Map<String, Object> model = new HashMap<>();
-            model.put("usuario", usuario);
-            // Lo que necesites cargar, por ejemplo:
-            ctx.render("listaPujas.ftl", model);
+
+
+            ctx.redirect("/administradores");
+        });
+        app.post("/administrador/añadir-producto", ctx -> {
+            // Obtener los parámetros del formulario
+            String nombre = ctx.formParam("nombre");
+            double precio = Double.parseDouble(ctx.formParam("precio"));
+            String descripcion = ctx.formParam("descripcion");
+
+            // Aquí puedes realizar las operaciones necesarias, como agregar el producto a la base de datos
+            Producto nuevoProducto = new Producto(nombre, precio, descripcion);
+
+            // Luego, almacenar el nuevo producto o realizar cualquier otra acción
+            ProductoDAO.anadirProducto(nuevoProducto); // ejemplo de cómo agregarlo a la base de datos
+
+            // Redirigir a la página de gestión de productos
+            ctx.redirect("/administrador/gestionar-productos");
         });
 
         // Logout
@@ -149,5 +180,4 @@ public class App {
             ctx.redirect("/");
         });
     }
-
 }

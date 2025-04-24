@@ -1,9 +1,6 @@
 package org.example;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -69,6 +66,49 @@ public class UsuarioDAO {
         }
         return usuarios;
     }
+
+    public static void eliminarUsuario(int id) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            Usuario usuario = em.find(Usuario.class, id);
+            if (usuario != null) {
+                tx.begin();
+                em.remove(usuario);
+                tx.commit();
+            }
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    public static void modificarUsuario(int id, String nombre, String email) {
+        String sql = "UPDATE usuarios SET nombre = ?, email = ? WHERE id = ?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, nombre);
+            pstmt.setString(2, email);
+            pstmt.setInt(3, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void anadirUsuario(String nombre, String email) {
+        String sql = "INSERT INTO usuarios (nombre, email) VALUES (?, ?)";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, nombre);
+            pstmt.setString(2, email);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // Método para guardar un nuevo usuario
     public static void guardarUsuario(Usuario usuario) {
