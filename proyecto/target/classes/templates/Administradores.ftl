@@ -158,7 +158,7 @@
     <!-- Formulario para añadir un nuevo producto -->
     <section>
         <h3>Añadir un Nuevo Producto</h3>
-        <form action="/administrador/añadir-producto" method="post">
+        <form action="/administrador/anadirProducto" method="post">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" value="${nombre?default('')}" required>
 

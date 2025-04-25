@@ -161,8 +161,10 @@
 
             <!-- Botones de navegación y botón de cerrar sesión -->
             <div class="header-buttons">
-        <button class="button" onclick="window.location.href='/listaPujas'">Ir al Menú</button>
-                <button class="button" onclick="window.location.href='/subasta'">Ir a Subasta</button>
+        <a href="/listaPujas">Ir a las Pujas</a>
+
+            <!-- Enlace al menú principal -->
+            <a href="/subasta">Ir a Subasta</a>
                 <button class="button" onclick="confirmarCerrarSesion()">Cerrar sesión</button>
             </div>
         </header>

@@ -130,6 +130,87 @@ public class App {
 
             ctx.render("usuarios.ftl", model);
         });
+        // Ruta para las subastas
+        app.get("/listaPujas", ctx -> {
+            // Obtén los productos o subastas relevantes (esto depende de tu lógica)
+            List<Producto> pujas = ProductoDAO.obtenerTodosProductos();
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("titulo", "Lista de Pujas");
+            model.put("pujas", pujas);
+
+            // Renderiza la vista listaPujas.ftl
+            ctx.render("listaPujas.ftl", Map.of("productos", pujas));
+        });
+
+        //--------------------------------------------
+
+        app.get("/subasta", ctx -> {
+            // Obtener todos los productos disponibles
+            List<Producto> productos = ProductoDAO.obtenerTodosProductos();
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("titulo", "Subasta de Productos");
+            model.put("productos", productos);  // Pasar la lista de productos a la plantilla
+
+            ctx.render("subasta.ftl", model);
+        });
+
+        app.get("/api/productos-pujables", ctx -> {
+            List<Producto> productos = ProductoDAO.obtenerProductosPujables();
+            ctx.json(productos);
+        });
+
+// API para manejar pujas
+        app.post("/api/pujar", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("usuario");
+            if (usuario == null) {
+                ctx.status(401).json(Map.of("error", "Debes iniciar sesión para pujar"));
+                return;
+            }
+
+            try {
+                Map<String, Object> body = ctx.bodyAsClass(Map.class);
+                int idProducto = Integer.parseInt(body.get("idProducto").toString());
+                double cantidad = Double.parseDouble(body.get("cantidad").toString());
+
+                boolean exito = ProductoDAO.actualizarPuja(idProducto, cantidad, usuario);
+
+                if (exito) {
+                    ctx.json(Map.of(
+                            "success", true,
+                            "nuevoPrecio", cantidad,
+                            "mensaje", "Puja realizada con éxito"
+                    ));
+                } else {
+                    ctx.status(400).json(Map.of(
+                            "error", "La puja debe ser mayor al precio actual",
+                            "success", false
+                    ));
+                }
+            } catch (Exception e) {
+                ctx.status(500).json(Map.of("error", "Error al procesar la puja"));
+            }
+        });
+
+// API para obtener productos de un usuario
+        app.get("/mis-pujas", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("usuario");
+            if (usuario == null) {
+                ctx.redirect("/");
+                return;
+            }
+
+            List<Producto> misPujas = ProductoDAO.obtenerProductosPorUsuario(usuario.getId());
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("titulo", "Mis Pujas");
+            model.put("productos", misPujas);
+
+            ctx.render("misPujas.ftl", model);
+        });
+
+        //--------------------------------------------
 
         // Ruta para eliminar producto
         app.post("/administrador/eliminar-producto", ctx -> {
@@ -158,21 +239,31 @@ public class App {
 
             ctx.redirect("/administradores");
         });
-        app.post("/administrador/añadir-producto", ctx -> {
+        app.post("/administrador/anadirProducto", ctx -> {
             // Obtener los parámetros del formulario
             String nombre = ctx.formParam("nombre");
             double precio = Double.parseDouble(ctx.formParam("precio"));
             String descripcion = ctx.formParam("descripcion");
 
-            // Aquí puedes realizar las operaciones necesarias, como agregar el producto a la base de datos
+            // Crear un nuevo producto
             Producto nuevoProducto = new Producto(nombre, precio, descripcion);
 
-            // Luego, almacenar el nuevo producto o realizar cualquier otra acción
-            ProductoDAO.anadirProducto(nuevoProducto); // ejemplo de cómo agregarlo a la base de datos
+            // Llamar al método de DAO para guardar el producto en la base de datos
+            ProductoDAO.anadirProducto(nuevoProducto);
 
-            // Redirigir a la página de gestión de productos
+            // Redirigir al administrador a la página de gestión de productos
             ctx.redirect("/administrador/gestionar-productos");
         });
+        app.get("/administrador/gestionar-productos", ctx -> {
+            // Obtener todos los productos desde la base de datos
+            List<Producto> productos = ProductoDAO.obtenerTodosProductos();
+
+            // Pasar los productos a la vista
+            ctx.attribute("productos", productos);
+            ctx.render("administradores.ftl");
+        });
+
+
 
         // Logout
         app.post("/logout", ctx -> {
