@@ -1,0 +1,110 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+
+body {
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.register-box {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+
+.header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 10px; 
+}
+
+.header h1 {
+    font-size: 28px;
+    color: #333333;
+    margin: 0;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666666;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #ff6f61;
+    outline: none;
+}
+
+.btn-register {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff6f61;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-register:hover {
+    background-color: #e65c50;
+}
+
+.login-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666666;
+}
+
+.login-link a {
+    color: #ff6f61;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}

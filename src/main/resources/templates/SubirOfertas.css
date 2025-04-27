@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f9;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.form-group {
+    margin-bottom: 15px;
+}
+label {
+    font-weight: bold;
+    display: block;
+}
+input[type="text"], input[type="number"], textarea, input[type="file"], select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    background-color: #00cbfd;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+button:hover {
+    background-color: #00cbfd;
+}

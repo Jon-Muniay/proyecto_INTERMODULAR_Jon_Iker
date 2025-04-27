@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+                                 https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
+             version="3.1">
+
+    <persistence-unit name="ROPAZON">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Tus clases JPA -->
+        <class>org.example.Usuario</class>
+        <class>org.example.Producto</class>
+
+        <properties>
+            <!-- Configuración JDBC -->
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ROPAZON?useSSL=false&amp;serverTimezone=UTC"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="root"/>
+
+            <!-- Dialecto y provider -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+
+            <!-- Establecer 'update' para que Hibernate actualice las tablas si es necesario -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+
+            <!-- Mostrar SQL en consola -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+
+            <!-- Activar import.sql -->
+            <property name="hibernate.hbm2ddl.import_files" value="import.sql"/>
+        </properties>
+    </persistence-unit>
+</persistence>
