@@ -197,10 +197,10 @@
                             <button type="submit">Modificar</button>
                         </td>
                     </form>
-                    <form action="/administrador/eliminar-producto" method="post" class="inline-form" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">
-                        <input type="hidden" name="id_producto" value="${producto.id}">
-                        <button type="submit" class="eliminar">Eliminar</button>
-                    </form>
+                   <form action="/administrador/eliminar-producto" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">
+                       <input type="hidden" name="id_producto" value="${producto.id}">
+                       <button type="submit" class="eliminar">Eliminar</button>
+                   </form>
                 </tr>
             </#list>
         </tbody>

@@ -24,6 +24,7 @@ public class App {
             });
         }).start(8080);
 
+
         // Ruta para el formulario de registro
         app.get("/registro.html", ctx -> {
             Map<String, Object> model = new HashMap<>();
@@ -112,6 +113,24 @@ public class App {
             model.put("productos", productos);
             ctx.render("administradores.ftl", model);
         });
+        app.post("/administrador/modificar-producto", ctx -> {
+            int idProducto = Integer.parseInt(ctx.formParam("id_producto"));
+            String nombre = ctx.formParam("nombre");
+            double precio = Double.parseDouble(ctx.formParam("precio"));
+            String descripcion = ctx.formParam("descripcion");
+
+            Producto producto = ProductoDAO.obtenerProductoPorId(idProducto);
+            if (producto != null) {
+                producto.setNombre(nombre);
+                producto.setPrecio(precio);
+                producto.setDescripcion(descripcion);
+
+                ProductoDAO.actualizarProducto(producto);
+            }
+
+            ctx.redirect("/administradores");
+        });
+
 
         // Vista para usuarios
         app.get("/usuarios", ctx -> {
@@ -142,6 +161,42 @@ public class App {
             // Renderiza la vista listaPujas.ftl
             ctx.render("listaPujas.ftl", Map.of("productos", pujas));
         });
+        app.post("/api/productos", ctx -> {
+            // Obtener el cuerpo de la solicitud como texto
+            String body = ctx.body();
+
+            // Procesar el cuerpo manualmente (ejemplo simple)
+            String[] params = body.split("&");
+            String nombre = null;
+            double precio = 0;
+            String descripcion = null;
+
+            for (String param : params) {
+                String[] keyValue = param.split("=");
+                if (keyValue[0].equals("nombre")) {
+                    nombre = keyValue[1];
+                } else if (keyValue[0].equals("precio")) {
+                    precio = Double.parseDouble(keyValue[1]);
+                } else if (keyValue[0].equals("descripcion")) {
+                    descripcion = keyValue[1];
+                }
+            }
+
+            // Crear el producto y guardarlo (ejemplo)
+            Producto producto = new Producto(nombre, precio, descripcion);
+            ProductoDAO.guardarProducto(producto);
+
+            ctx.result("Producto añadido correctamente");
+        });
+
+
+
+
+
+
+
+
+
 
         //--------------------------------------------
 
@@ -210,34 +265,91 @@ public class App {
             ctx.render("misPujas.ftl", model);
         });
 
+        // ----------------------------------------------------------------------
+
+
+        // Ruta para listar productos pujables
+        app.get("/api/productos/pujables", ctx -> {
+            ctx.json(ProductoDAO.obtenerProductosPujables());
+        });
+
+        // Ruta para realizar una puja
+        app.post("/api/pujas", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("usuario");
+            if (usuario == null) {
+                ctx.status(401).json(Map.of("error", "Debes iniciar sesión"));
+                return;
+            }
+
+            Map<String, Object> body = ctx.bodyAsClass(Map.class);
+            int productoId = (int) body.get("productoId");
+            double cantidad = (double) body.get("cantidad");
+
+            boolean exito = ProductoDAO.realizarPuja(productoId, cantidad, usuario);
+            if (exito) {
+                ctx.json(Map.of("success", true));
+            } else {
+                ctx.status(400).json(Map.of("error", "Puja no válida"));
+            }
+        });
+
+        // Ruta para admin - liberar productos
+        app.post("/admin/productos/{id}/liberar", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("usuario");
+            if (usuario == null || !"admin@gmail.com".equals(usuario.getEmail())) {
+                ctx.status(403);
+                return;
+            }
+
+            int productoId = Integer.parseInt(ctx.pathParam("id"));
+            ProductoDAO.liberarProducto(productoId);
+            ctx.json(Map.of("success", true));
+        });
+
+
+
+
+
+
         //--------------------------------------------
 
         // Ruta para eliminar producto
         app.post("/administrador/eliminar-producto", ctx -> {
-            int idProducto = Integer.parseInt(ctx.formParam("id_producto"));
-            ProductoDAO.eliminarProducto(idProducto);
-            ctx.redirect("/administradores");
-        });
-
-        // Ruta para modificar producto
-        app.post("/administrador/modificar-producto", ctx -> {
-            int idProducto = Integer.parseInt(ctx.formParam("id_producto"));
-            String nombre = ctx.formParam("nombre");
-            double precio = Double.parseDouble(ctx.formParam("precio"));
-            String descripcion = ctx.formParam("descripcion");
-
-            Producto producto = ProductoDAO.obtenerProductoPorId(idProducto);
-            if (producto != null) {
-                producto.setNombre(nombre);
-                producto.setPrecio(precio);
-                producto.setDescripcion(descripcion);
-
-                ProductoDAO.actualizarProducto(producto);
+            Usuario usuario = ctx.sessionAttribute("usuario");
+            if (usuario == null || !"admin@gmail.com".equals(usuario.getEmail())) {
+                ctx.status(403).result("Acceso no autorizado");
+                return;
             }
 
+            try {
+                int idProducto = Integer.parseInt(ctx.formParam("id_producto"));
+                ProductoDAO.eliminarProducto(idProducto);
+                ctx.redirect("/administradores");
+            } catch (Exception e) {
+                e.printStackTrace();
+                ctx.status(500).result("Error al eliminar el producto");
+            }
+        });
+        app.post("/administrador/modificar-producto", ctx -> {
+            try {
+                int idProducto = Integer.parseInt(ctx.formParam("id_producto"));
+                String nombre = ctx.formParam("nombre");
+                double precio = Double.parseDouble(ctx.formParam("precio"));
+                String descripcion = ctx.formParam("descripcion");
 
+                Producto producto = ProductoDAO.obtenerProductoPorId(idProducto);
+                if (producto != null) {
+                    producto.setNombre(nombre);
+                    producto.setPrecio(precio);
+                    producto.setDescripcion(descripcion);
 
-            ctx.redirect("/administradores");
+                    ProductoDAO.actualizarProducto(producto);
+                }
+                ctx.redirect("/administradores");
+            } catch (Exception e) {
+                e.printStackTrace();
+                ctx.status(500).result("Error al modificar el producto");
+            }
         });
         app.post("/administrador/anadirProducto", ctx -> {
             // Obtener los parámetros del formulario

@@ -118,4 +118,18 @@ public class UsuarioDAO {
         em.getTransaction().commit();
         em.close();
     }
+
+
+    public static void guardarProductoPujado(int usuarioId, int productoId) {
+        try (Connection con = Database.getConnection()) {
+            String sql = "INSERT INTO productos_pujados (usuario_id, producto_id) VALUES (?, ?)";
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setInt(1, usuarioId);
+                ps.setInt(2, productoId);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

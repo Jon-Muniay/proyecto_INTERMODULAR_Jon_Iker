@@ -66,36 +66,28 @@
 
         // Actualizar un producto existente
         public static void actualizarProducto(Producto producto) {
-            EntityManager em = emf.createEntityManager();
-            EntityTransaction tx = em.getTransaction();
-            try {
-                tx.begin();
-                em.merge(producto);
-                tx.commit();
-            } catch (Exception e) {
-                if (tx.isActive()) tx.rollback();
-                throw e;
-            } finally {
-                em.close();
+            String sql = "UPDATE productos SET nombre = ?, precio = ?, descripcion = ? WHERE id = ?";
+            try (Connection conn = Database.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, producto.getNombre());
+                stmt.setDouble(2, producto.getPrecio());
+                stmt.setString(3, producto.getDescripcion());
+                stmt.setInt(4, producto.getId());
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
 
         // Eliminar un producto por su ID
         public static void eliminarProducto(int id) {
-            EntityManager em = emf.createEntityManager();
-            EntityTransaction tx = em.getTransaction();
-            try {
-                Producto producto = em.find(Producto.class, id);
-                if (producto != null) {
-                    tx.begin();
-                    em.remove(producto);
-                    tx.commit();
-                }
-            } catch (Exception e) {
-                if (tx.isActive()) tx.rollback();
-                throw e;
-            } finally {
-                em.close();
+            String sql = "DELETE FROM productos WHERE id = ?";
+            try (Connection conn = Database.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
 
@@ -199,7 +191,16 @@
             }
         }
 
-        // Método para obtener productos por usuario (sus pujas)
+
+
+        // Cerrar la conexión con la base de datos
+        public static void cerrar() {
+            if (emf.isOpen()) emf.close();
+        }
+
+
+
+
         public static List<Producto> obtenerProductosPorUsuario(int usuarioId) {
             EntityManager em = emf.createEntityManager();
             try {
@@ -212,10 +213,61 @@
             }
         }
 
+        public static List<Producto> obtenerProductosConDueño() {
+            EntityManager em = emf.createEntityManager();
+            try {
+                return em.createQuery(
+                                "SELECT p FROM Producto p WHERE p.usuario IS NOT NULL", Producto.class)
+                        .getResultList();
+            } finally {
+                em.close();
+            }
+        }
 
-        // Cerrar la conexión con la base de datos
-        public static void cerrar() {
-            if (emf.isOpen()) emf.close();
+        public static boolean realizarPuja(int productoId, double nuevaPuja, Usuario usuario) {
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = null;
+            try {
+                tx = em.getTransaction();
+                tx.begin();
+
+                Producto producto = em.find(Producto.class, productoId);
+                if (producto != null && producto.getUsuario() == null && nuevaPuja > producto.getPrecio()) {
+                    producto.setPrecio(nuevaPuja);
+                    producto.setUsuario(usuario);
+                    em.merge(producto);
+                    tx.commit();
+                    return true;
+                }
+                tx.rollback();
+                return false;
+            } catch (Exception e) {
+                if (tx != null && tx.isActive()) tx.rollback();
+                throw e;
+            } finally {
+                em.close();
+            }
+        }
+
+        public static void liberarProducto(int productoId) {
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = null;
+            try {
+                tx = em.getTransaction();
+                tx.begin();
+
+                Producto producto = em.find(Producto.class, productoId);
+                if (producto != null) {
+                    producto.setUsuario(null);
+                    em.merge(producto);
+                }
+                tx.commit();
+            } catch (Exception e) {
+                if (tx != null && tx.isActive()) tx.rollback();
+                throw e;
+            } finally {
+                em.close();
+            }
         }
 
 
