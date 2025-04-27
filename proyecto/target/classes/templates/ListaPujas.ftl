@@ -1,6 +1,10 @@
 <!-- formulario-producto.html -->
 <!-- formulario-producto.html -->
 <form method="post" action="/api/productos" style="max-width: 500px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+   <div style="text-align: center; margin-top: 20px;">
+       <a href="/usuarios" style="margin-right: 10px; padding: 10px 20px; background-color: #17a2b8; color: #fff; text-decoration: none; border-radius: 4px;">Mi Usuario</a>
+       <a href="/subasta" style="padding: 10px 20px; background-color: #17a2b8; color: #fff; text-decoration: none; border-radius: 4px;">Ir a Subastas</a>
+   </div>
     <h2 style="text-align: center; color: #333;">Agregar Producto a la Puja</h2>
     <input type="text" name="nombre" placeholder="Nombre del producto" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px;">
     <input type="number" name="precio" placeholder="Precio inicial" min="0" step="0.01" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px;">

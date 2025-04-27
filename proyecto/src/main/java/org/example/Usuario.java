@@ -59,6 +59,12 @@ public class Usuario {
     public void setContrasena(String contrasena) {
         this.contrasena = BCrypt.hashpw(contrasena, BCrypt.gensalt());
     }
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     // Método para verificar la contraseña
     public boolean verificarContrasena(String contrasenaPlana) {

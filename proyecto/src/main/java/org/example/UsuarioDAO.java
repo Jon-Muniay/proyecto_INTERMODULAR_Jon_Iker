@@ -132,4 +132,27 @@ public class UsuarioDAO {
             e.printStackTrace();
         }
     }
+
+    public static void actualizarUsuario(Usuario usuario) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Usuario usuarioExistente = em.find(Usuario.class, usuario.getId());
+            if (usuarioExistente != null) {
+                usuarioExistente.setNombre(usuario.getNombre());
+                usuarioExistente.setEmail(usuario.getEmail());
+                usuarioExistente.setContrasena(usuario.getContrasena());
+            }
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+
+
 }

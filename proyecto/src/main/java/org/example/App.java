@@ -149,6 +149,52 @@ public class App {
 
             ctx.render("usuarios.ftl", model);
         });
+        // EDITAR PERFIL
+
+
+        app.get("/editarPerfil", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("usuario");
+            if (usuario == null) {
+                ctx.redirect("/");
+                return;
+            }
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("usuario", usuario);
+            ctx.render("editarPerfil.ftl", model);
+        });
+
+// Ruta para procesar la edición de perfil
+        app.post("/editarPerfil", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("usuario");
+            if (usuario == null) {
+                ctx.redirect("/");
+                return;
+            }
+
+            String nuevoNombre = ctx.formParam("nombre");
+            String nuevoEmail = ctx.formParam("email");
+            String nuevaContrasena = ctx.formParam("password");
+
+            if (nuevoNombre == null || nuevoEmail == null || nuevaContrasena == null ||
+                    nuevoNombre.isEmpty() || nuevoEmail.isEmpty() || nuevaContrasena.isEmpty()) {
+                ctx.status(400).result("Todos los campos son obligatorios");
+                return;
+            }
+
+            usuario.setNombre(nuevoNombre);
+            usuario.setEmail(nuevoEmail);
+            usuario.setContrasena(nuevaContrasena);
+
+            UsuarioDAO.actualizarUsuario(usuario);
+            ctx.sessionAttribute("usuario", usuario);
+            ctx.redirect("/usuarios");
+        });
+
+
+
+
+
         // Ruta para las subastas
         app.get("/listaPujas", ctx -> {
             // Obtén los productos o subastas relevantes (esto depende de tu lógica)

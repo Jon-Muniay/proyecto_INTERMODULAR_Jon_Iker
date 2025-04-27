@@ -177,8 +177,7 @@
                 <p><strong>Email:</strong> ${usuario.email!"Email no disponible"}</p>
 
 
-                <button class="button" onclick="window.location.href='/editar-perfil'">Editar Perfil</button>
-            </div>
+<a href="/editarPerfil" class="button">Editar Perfil</a>            </div>
         </section>
 
         <section class="purchase-history">
