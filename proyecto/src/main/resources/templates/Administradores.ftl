@@ -155,22 +155,10 @@
         <h1>${titulo}</h1>
     </header>
 
-    <!-- Formulario para añadir un nuevo producto -->
-    <section>
-        <h3>Añadir un Nuevo Producto</h3>
-        <form action="/administrador/anadirProducto" method="post">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" value="${nombre?default('')}" required>
 
-            <label for="precio">Precio:</label>
-            <input type="number" step="0.01" id="precio" name="precio" value="${precio?default('')}" required>
 
-            <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" name="descripcion" required>${descripcion?default('')}</textarea>
 
-            <button type="submit">Añadir Producto</button>
-        </form>
-    </section>
+
 
     <!-- Tabla de productos existentes -->
     <h2>Gestionar Productos</h2>
@@ -205,7 +193,9 @@
             </#list>
         </tbody>
     </table>
+    <a href="/" style="display: block; margin-top: 20px; text-align: center;"> Cerrar Sesion</a>
 
-    <a href="/logout">Cerrar sesión</a>
+
+
 </body>
 </html>
